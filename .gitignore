@@ -52,7 +52,13 @@ Mkfile.old
 dkms.conf
 */.vs/
 */obj
+*/obj/
+*/bin
 */bin/
 /.vs/HPA3Project/CopilotIndices/0.2.1634.3922
 /Sol_SistemaVentaV2/Sol_SistemaVentaV2/.vs/Sol_SistemaVenta/CopilotIndices/0.2.1634.3922
 /Sol_SistemaVentaV2/Sol_SistemaVentaV2/SV_Servicios/obj
+/Sol_SistemaVentaV2/Sol_SistemaVentaV2/SV_Repositorio/obj
+/Sol_SistemaVentaV2/Sol_SistemaVentaV2/SV_Servicios/bin/Debug/net8.0
+/Sol_SistemaVentaV2/Sol_SistemaVentaV2/SV_Presentacion/obj
+/.vs

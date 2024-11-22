@@ -1,0 +1,281 @@
+// CLASES EN LA CARPETA ENTIDADES DE LA CAPA DE DATOS (SVRepositorio)
+
+--CLASE PARA LA TABLA MEDIDA
+
+namespace SVRepositorio.ENTIDADES
+{
+    public class Medida
+    {
+        public int IdMedida { get; set; }
+        public string NombreMedida { get; set; }
+        public string Abreviatura { get; set; }
+        public string Equivalente { get; set; }
+        public int Valor { get; set; }
+    }
+}
+
+--CLASE PARA LA TABLA CATEGORÍAS
+
+namespace SVRepositorio.ENTIDADES
+{
+    public class Categoria
+    {
+        public int IdCategoria { get; set; }
+        public string NombreCategoria { get; set; }
+        public Medida RefMedida { get; set; }
+        public int RActivo { get; set; }
+    }
+}
+
+
+/* CLASES EN LA CARPETA INTERFACE DE LA CAPA DE DATOS (SVRepositorio)
+  DEFINICION DE LOS MÉTODOS */
+
+--IMedidaRepositorio
+
+using SVRepositorio.ENTIDADES;
+
+namespace SVRepositorio.INTERFACE
+{
+    public interface IMedidaRepositorio
+    {
+       Task<List<Medida>> listaMedida();
+    }
+}
+
+-- ICategoriaRepositorio
+using SVRepositorio.ENTIDADES;
+
+namespace SVRepositorio.INTERFACE
+{
+    public interface ICategoriaRepositorio
+    {
+        Task<List<Categoria>> listaCategoria(string buscar = " ");
+
+        Task<string> CrearCategoria(Categoria objeto);
+
+        Task<string> EditarCategoria(Categoria objeto);
+    }
+}
+
+/* CLASES EN LA CARPETA IMPLEMENTACION DE LA CAPA DE DATOS (SVRepositorio)
+   LOGISTICA U OPERACIONES DE LOS MÉTODOS DECLARADOS EN LAS CLASES INTERFAZ */
+
+--class MedidaRepositorio
+
+using Microsoft.Data.SqlClient;
+using SVRepositorio.BD;
+using SVRepositorio.ENTIDADES;
+using SVRepositorio.INTERFACE;
+using System.Data;
+namespace SVRepositorio.IMPLEMENTACION
+{
+    public class MedidaRepositorio : IMedidaRepositorio
+    {
+        private readonly Conexion _conexion;
+
+        public MedidaRepositorio(Conexion conexion)
+        {
+            _conexion = conexion;
+        }
+        
+        public async Task<List<Medida>> listaMedida()
+        {
+            List<Medida> lista = new List<Medida>();
+            using (var cn = _conexion.ObtenerSql())
+            {
+              cn.Open();
+                var cmd = new SqlCommand("sp_listaMedida", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                using (var dr = await cmd.ExecuteReaderAsync()) 
+                { 
+                 while(await dr.ReadAsync()) 
+                    {
+                        lista.Add(new Medida
+                        {
+                            IdMedida = Convert.ToInt32(dr["IdMedida"]),
+                            NombreMedida = (dr["NombreMedida"]).ToString()!,
+                            Abreviatura = (dr["Abreviatura"]).ToString()!,
+                            Equivalente = (dr["Equivalente"]).ToString()!,
+                            Valor = Convert.ToInt32(dr["Valor"])
+
+                        });
+                    }
+                }
+                return lista;      
+            }
+        }
+    }
+}
+
+
+--class CategoriaRepositorio  // PENDIENTES POR CODIFICAR LOS MÉTODOS CREAR Y EDITAR CATEGORIA.
+
+using Microsoft.Data.SqlClient;
+using SVRepositorio.BD;
+using SVRepositorio.ENTIDADES;
+using SVRepositorio.INTERFACES;
+using System.Data;
+
+namespace SVRepositorio.IMPLEMENTACION
+{
+    class CategoriaRepositorio : ICategoriaRepositorio
+    {
+        private readonly Conexion _conexion;
+
+        public CategoriaRepositorio(Conexion conexion)
+        {
+            _conexion = conexion; 
+        }
+
+        public async Task<List<Categoria>> listaCategoria(string buscar = "")
+        {
+            List<Categoria> listaCat = new List<Categoria>();
+
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_listaCategoria", cn);
+                cmd.Parameters.AddWithValue("@Buscar", buscar);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                using (var dr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await dr.ReadAsync())
+                    {
+                        listaCat.Add(new Categoria
+                        {
+                            IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
+                            NombreCategoria = (dr["NombreCategoria"]).ToString()!,
+                            Activo = Convert.ToInt32(dr["Activo"]),
+                            RefMedida = new Medida
+                            {
+                                IdMedida = Convert.ToInt32(dr["IdMedida"]),
+                                NombreMedida = (dr["NombreMedida"]).ToString()!
+                            }
+                        });
+
+                    }
+                }
+                return listaCat;
+            }
+
+        }  
+        
+        public Task<string> CrearCategoria(Categoria objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> EditarCategoria(Categoria objeto)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+    }
+}
+ *********   SQL *******************************************************
+
+// REGISTROS EN LA TABLA MEDIDA
+ select * from Medida
+  sp_help Medida
+  insert into Medida(NomMedida,Abreviatura,Equivalente,Valor)
+  values
+    ('Unidad','ud','ud',1),
+	('Kilogramo','kg','g',1000)
+
+
+//REGISTROS EN LA TABLA Categoria
+
+select * from Categoria
+
+insert into Categoria(NombreCategoria,IdMedida)
+Values('Accesorios',1)
+
+// PROCEDIMIENTOS ALMACENADOS
+
+
+--Stored Procedure Listar Medidas
+
+create procedure sp_listarMedida
+as
+begin
+ select IdMedida, NombreMedida, Abreviatura, Equivalente, Valor from Medida
+
+end
+
+--Stored Procedure Listar Categoria
+
+create procedure sp_listarCategoria
+(
+@Buscar Varchar(50) =  ' '
+)
+as
+begin
+ select 
+ c.IdCategoria,
+ c.NombreCategoria,
+ c.Activo,
+ m.IdMedida,
+ m.NombreMedida
+from 
+Categoria c
+ inner join Medida m on m.IdMedida = c.IdMedida
+ where concat(c.NombreCategoria, m.NombreMedida, iif(c.Activo=1,'SI','NO')) like '%'+ @Buscar +'%'
+end
+
+
+--Stored Procedure Crear Categorias
+
+create procedure sp_crearCategoria
+(
+@NombreCat       varchar(50),
+@IdMedida        int,
+@MsjError        varchar(100) output 
+)
+as
+begin
+   set @MsjError = '' 
+
+   if(exists(select * from Categoria where NombreCategoria = @NombreCat))
+   begin
+    set @MsjError = 'El nombre de la Categoría ya existe.'
+	return 
+   end 
+
+   insert into Categoria (NombreCategoria,IdMedida)
+   values(@NombreCat, @IdMedida)
+
+end
+
+--Stored Procedure editar Categorias
+
+create procedure sp_editarCategoria
+(
+@IdCategoria     int,
+@NombreCat       varchar(50),
+@IdMedida        int,
+@Activo          bit, 
+@MsjError        varchar(100) output 
+)
+as
+begin
+   set @MsjError = '' 
+
+   if(exists(select * from Categoria where NombreCategoria = @NombreCat and IdCategoria != @IdCategoria))
+   begin
+    set @MsjError = 'El nombre de la Categoría ya existe.'
+	return 
+   end 
+
+   update Categoria set
+   NombreCategoria = @NombreCat,
+   IdMedida        = @IdMedida,
+   Activo          = @Activo
+   where IdCategoria = @IdCategoria
+
+end
+
+
