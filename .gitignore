@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 /.vs
 /Sol_SistemaVentaV2/Sol_SistemaVentaV2/.vs
+/Sol_SistemaVentaV2/Sol_SistemaVentaV2/SV_Presentacion/obj
+/Sol_SistemaVentaV2/Sol_SistemaVentaV2/SV_Presentacion/bin/Debug/net8.0-windows
