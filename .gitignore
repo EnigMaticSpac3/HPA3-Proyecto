@@ -11,7 +11,7 @@
 *.suo
 *.user
 *.sln.docstates
-//git rm -r --cached 
+
 
 # Build results
 **[Dd]ebug/
