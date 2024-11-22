@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SV_Repositorio")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14589bbe1831b722ff7a0b8653eaa85248fa196b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4423bf3d7f35202275b31a6e7fca019f9ddf7d78")]
 [assembly: System.Reflection.AssemblyProductAttribute("SV_Repositorio")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SV_Repositorio")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
