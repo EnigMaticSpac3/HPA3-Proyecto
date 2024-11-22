@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 
 namespace SV_Repositorio.BD
 {
-    /*PASALO PLOX*/
     public class Conexion //public porque lo vamos a estar llamando desde los otros proyectos
     {
         //IConfiguration esta accediendo al entorno
