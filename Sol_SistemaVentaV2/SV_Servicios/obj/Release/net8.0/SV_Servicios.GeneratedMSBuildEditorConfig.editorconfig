@@ -1,0 +1,13 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SV_Servicios
+build_property.ProjectDir = A:\OneDrive - Universidad Tecnológica de Panamá\IngSistComp\3erAnho\2ndSemester\HPA3\4. Actividades o Asignaciones\3. Proyectos\HPA3Project\Sol_SistemaVentaV2 (2)\SV_Servicios\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
