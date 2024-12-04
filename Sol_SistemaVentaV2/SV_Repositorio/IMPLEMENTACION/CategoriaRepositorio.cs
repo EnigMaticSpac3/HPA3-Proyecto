@@ -48,7 +48,7 @@ namespace SV_Repositorio.IMPLEMENTACION
         }
 
 
-        public Task<string> CrearCategoria(Categoria objeto)
+        public async Task<string> CrearCategoria(Categoria objeto)
         {
             String respuesta = "";
 
