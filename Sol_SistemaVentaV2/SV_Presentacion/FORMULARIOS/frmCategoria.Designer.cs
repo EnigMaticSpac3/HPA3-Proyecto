@@ -285,7 +285,6 @@
             labelHabilitarEditar.Size = new Size(55, 15);
             labelHabilitarEditar.TabIndex = 12;
             labelHabilitarEditar.Text = "Habilitar:";
-            labelHabilitarEditar.Click += this.label3_Click;
             // 
             // frmCategoria
             // 
