@@ -2,10 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SV_Presentacion.FORMULARIOS;
-using SV_Repositorio.IMPLEMENTACION;
-using SV_Repositorio.INTERFACES;
-using SV_Servicios.IMPLEMENTACION;
-using SV_Servicios.INTERFACES;
+using SV_Repositorio;
+using SV_Servicios;
 
 namespace SV_Presentacion
 {
@@ -32,11 +30,8 @@ namespace SV_Presentacion
                 { config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); })
             .ConfigureServices((context, services) =>
                 {
-                    //services.registroDatos();
-                    //services.registrarServicios();
-
-                    services.AddTransient<IMedidaServicios, MedidaServicios>();
-                    services.AddTransient<ICategoriaServicios, CategoriaServicios>();
+                    services.registroDatos();
+                    services.registrarServicios();
 
 
                     //llamar al formulario como un servicio
