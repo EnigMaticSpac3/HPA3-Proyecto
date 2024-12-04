@@ -21,5 +21,10 @@ namespace SV_Presentacion.FORMULARIOS
         {
 
         }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

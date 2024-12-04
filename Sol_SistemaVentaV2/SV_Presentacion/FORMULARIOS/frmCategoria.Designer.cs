@@ -43,9 +43,18 @@
             cbbNuevoMedida = new ComboBox();
             btnVolverNuevo = new Button();
             btnNuevoGuardar = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            cbbMedidaEditar = new ComboBox();
+            label2 = new Label();
+            labelEditarNombre = new Label();
+            txtNombreEditar = new TextBox();
+            cbbHabilitar = new ComboBox();
+            labelHabilitarEditar = new Label();
             tabControlPrincipal.SuspendLayout();
             tabLista.SuspendLayout();
             tabNuevo.SuspendLayout();
+            tabEditar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCategorias).BeginInit();
             SuspendLayout();
             // 
@@ -93,6 +102,14 @@
             // 
             // tabEditar
             // 
+            tabEditar.Controls.Add(cbbHabilitar);
+            tabEditar.Controls.Add(labelHabilitarEditar);
+            tabEditar.Controls.Add(button1);
+            tabEditar.Controls.Add(button2);
+            tabEditar.Controls.Add(cbbMedidaEditar);
+            tabEditar.Controls.Add(label2);
+            tabEditar.Controls.Add(labelEditarNombre);
+            tabEditar.Controls.Add(txtNombreEditar);
             tabEditar.Location = new Point(4, 24);
             tabEditar.Name = "tabEditar";
             tabEditar.Padding = new Padding(3);
@@ -183,7 +200,7 @@
             // 
             // btnVolverNuevo
             // 
-            btnVolverNuevo.Location = new Point(28, 225);
+            btnVolverNuevo.Location = new Point(28, 215);
             btnVolverNuevo.Name = "btnVolverNuevo";
             btnVolverNuevo.Size = new Size(111, 23);
             btnVolverNuevo.TabIndex = 4;
@@ -192,12 +209,83 @@
             // 
             // btnNuevoGuardar
             // 
-            btnNuevoGuardar.Location = new Point(559, 225);
+            btnNuevoGuardar.Location = new Point(558, 215);
             btnNuevoGuardar.Name = "btnNuevoGuardar";
             btnNuevoGuardar.Size = new Size(111, 23);
             btnNuevoGuardar.TabIndex = 5;
             btnNuevoGuardar.Text = "Guardar";
             btnNuevoGuardar.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(572, 223);
+            button1.Name = "button1";
+            button1.Size = new Size(111, 23);
+            button1.TabIndex = 11;
+            button1.Text = "Guardar";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(42, 223);
+            button2.Name = "button2";
+            button2.Size = new Size(111, 23);
+            button2.TabIndex = 10;
+            button2.Text = "Volver";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // cbbMedidaEditar
+            // 
+            cbbMedidaEditar.FormattingEnabled = true;
+            cbbMedidaEditar.Location = new Point(42, 111);
+            cbbMedidaEditar.Name = "cbbMedidaEditar";
+            cbbMedidaEditar.Size = new Size(376, 23);
+            cbbMedidaEditar.TabIndex = 9;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(42, 93);
+            label2.Name = "label2";
+            label2.Size = new Size(50, 15);
+            label2.TabIndex = 8;
+            label2.Text = "Medida:";
+            // 
+            // labelEditarNombre
+            // 
+            labelEditarNombre.AutoSize = true;
+            labelEditarNombre.Location = new Point(42, 30);
+            labelEditarNombre.Name = "labelEditarNombre";
+            labelEditarNombre.Size = new Size(54, 15);
+            labelEditarNombre.TabIndex = 7;
+            labelEditarNombre.Text = "Nombre:";
+            // 
+            // txtNombreEditar
+            // 
+            txtNombreEditar.BorderStyle = BorderStyle.FixedSingle;
+            txtNombreEditar.Location = new Point(42, 48);
+            txtNombreEditar.Name = "txtNombreEditar";
+            txtNombreEditar.Size = new Size(376, 23);
+            txtNombreEditar.TabIndex = 6;
+            // 
+            // cbbHabilitar
+            // 
+            cbbHabilitar.FormattingEnabled = true;
+            cbbHabilitar.Location = new Point(42, 175);
+            cbbHabilitar.Name = "cbbHabilitar";
+            cbbHabilitar.Size = new Size(170, 23);
+            cbbHabilitar.TabIndex = 13;
+            cbbHabilitar.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            // 
+            // labelHabilitarEditar
+            // 
+            labelHabilitarEditar.AutoSize = true;
+            labelHabilitarEditar.Location = new Point(42, 157);
+            labelHabilitarEditar.Name = "labelHabilitarEditar";
+            labelHabilitarEditar.Size = new Size(55, 15);
+            labelHabilitarEditar.TabIndex = 12;
+            labelHabilitarEditar.Text = "Habilitar:";
+            labelHabilitarEditar.Click += this.label3_Click;
             // 
             // frmCategoria
             // 
@@ -214,6 +302,8 @@
             tabLista.PerformLayout();
             tabNuevo.ResumeLayout(false);
             tabNuevo.PerformLayout();
+            tabEditar.ResumeLayout(false);
+            tabEditar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCategorias).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -236,5 +326,13 @@
         private TextBox txtNombreNuevoCategoria;
         private Button btnNuevoGuardar;
         private Button btnVolverNuevo;
+        private Button button1;
+        private Button button2;
+        private ComboBox cbbMedidaEditar;
+        private Label label2;
+        private Label labelEditarNombre;
+        private TextBox txtNombreEditar;
+        private ComboBox cbbHabilitar;
+        private Label labelHabilitarEditar;
     }
 }
