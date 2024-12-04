@@ -12,7 +12,7 @@ namespace SV_Repositorio.IMPLEMENTACION
 
         public CategoriaRepositorio(Conexion conexion)//constructor (ctor)
         {
-            _conexion = conexion; 
+            _conexion = conexion;
         }
 
         public async Task<List<Categoria>> listaCategoria(string buscar = "")
@@ -26,8 +26,10 @@ namespace SV_Repositorio.IMPLEMENTACION
                 cmd.Parameters.AddWithValue("@Buscar", buscar);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                using (var dr = await cmd.ExecuteReaderAsync()) {
-                    while (await dr.ReadAsync()) {
+                using (var dr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await dr.ReadAsync())
+                    {
                         listaCat.Add(new Categoria
                         {
                             IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
@@ -42,39 +44,41 @@ namespace SV_Repositorio.IMPLEMENTACION
                     }
                     return listaCat;
                 }
+            }
         }
 
 
-        public async Task<string> CrearCategoria(Categoria objeto)
+        public Task<string> CrearCategoria(Categoria objeto)
         {
-                String respuesta = "";
+            String respuesta = "";
 
-                using (var cn = _conexion.ObtenerSql())
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_crearCategoria", cn);
+                cmd.Parameters.AddWithValue("@NombreCat", objeto.NombreCategoria);
+                cmd.Parameters.AddWithValue("@IdMedida", objeto.RefMedida.IdMedida);
+                cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try // para encapsular una instruccion y si hay un errory evitar que la aplicacion se rompa
                 {
-                    cn.Open();
-                    var cmd = new SqlCommand("sp_crearCategoria", cn);
-                    cmd.Parameters.AddWithValue("@NombreCat", objeto.NombreCategoria);
-                    cmd.Parameters.AddWithValue("@IdMedida", objeto.RefMedida.IdMedida);
-                    cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    
-                    try // para encapsular una instruccion y si hay un errory evitar que la aplicacion se rompa
-                    {
-                        await cmd.ExecuteNonQueryAsync();
-                        respuesta = Convert.ToString(cmd.Parameters["@MsjError"].Value)!;
-                    }
-                    catch
-                    {
-                        respuesta = "Error(Crear Categoria), No se pudo insertar el registro";
-                    }
+                    await cmd.ExecuteNonQueryAsync();
+                    respuesta = Convert.ToString(cmd.Parameters["@MsjError"].Value)!;
                 }
-                return respuesta;
+                catch
+                {
+                    respuesta = "Error(Crear Categoria), No se pudo insertar el registro";
+                }
             }
+            return respuesta;
+        }
 
         public Task<string> EditarCategoria(Categoria objeto)
         {
             throw new NotImplementedException();
         }
+
 
         
     }
