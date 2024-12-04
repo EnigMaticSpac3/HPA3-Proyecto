@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SV_Repositorio.ENTIDADES;
 
 namespace SV_Servicios.INTERFACES
 {
-    internal interface ICategoriaServicios
+    public interface ICategoriaServicios
     {
+        Task<List<Categoria>> listaCategoria(string buscar = "");//Nombre del objeto
+        Task<string> CrearCategoria(Categoria objeto);
+        Task<string> EditarCategoria(Categoria objeto);
     }
 }
