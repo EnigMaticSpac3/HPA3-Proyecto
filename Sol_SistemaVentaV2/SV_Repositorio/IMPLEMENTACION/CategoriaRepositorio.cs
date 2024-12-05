@@ -26,8 +26,10 @@ namespace SV_Repositorio.IMPLEMENTACION
                 cmd.Parameters.AddWithValue("@Buscar", buscar);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                using (var dr = await cmd.ExecuteReaderAsync()) {
-                    while (await dr.ReadAsync()) {
+                using (var dr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await dr.ReadAsync())
+                    {
                         listaCat.Add(new Categoria
                         {
                             IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
@@ -42,6 +44,7 @@ namespace SV_Repositorio.IMPLEMENTACION
                     }
                     return listaCat;
                 }
+            }
         }
 
 

@@ -53,14 +53,50 @@ namespace SVRepositorio.IMPLEMENTACION
             }
         }
 
-        public Task<string> CrearProducto(Producto producto)
+        public async Task<string> CrearProducto(Producto producto)
         {
-            throw new NotImplementedException();
+            string respuesta = "";
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_crearProducto", cn);
+                cmd.Parameters.AddWithValue("@Codigo", producto.Codigo);
+                cmd.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
+                cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
+                cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
+                cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
+                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
+                cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                await cmd.ExecuteNonQueryAsync();
+                respuesta = cmd.Parameters["@Mensaje"].Value.ToString()!;
+            }
+            return respuesta;
         }
 
-        public Task<string> EditarProducto(Producto producto)
+        public async Task<string> EditarProducto(Producto producto)
         {
-            throw new NotImplementedException();
+            string respuesta = "";
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_editarProducto", cn);
+                cmd.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
+                cmd.Parameters.AddWithValue("@Codigo", producto.Codigo);
+                cmd.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
+                cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
+                cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
+                cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
+                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
+                cmd.Parameters.AddWithValue("@Activo", producto.Activo);
+                cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                await cmd.ExecuteNonQueryAsync();
+                respuesta = cmd.Parameters["@Mensaje"].Value.ToString()!;
+            }
+            return respuesta;
         }
     }
 }

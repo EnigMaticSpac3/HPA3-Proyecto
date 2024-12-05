@@ -1,8 +1,8 @@
 ﻿using SV_Repositorio.ENTIDADES;
 
-namespace SVRepositorio.INTERFACE
+namespace SV_Servicios.INTERFACES
 {
-    public interface IProductoRepositorio
+    public interface IProductoServicios
     {
         Task<List<Producto>> listaProducto(string buscar = "");
         Task<string> CrearProducto(Producto producto);
