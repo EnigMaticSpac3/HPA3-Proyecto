@@ -30,32 +30,32 @@
         {
             tabControlPrincipal = new TabControl();
             tabLista = new TabPage();
-            tabNuevo = new TabPage();
-            tabEditar = new TabPage();
-            label1 = new Label();
-            dgvCategorias = new DataGridView();
-            btnNuevoLista = new Button();
-            btnBuscar = new Button();
             txtBuscar = new TextBox();
-            txtNombreNuevoCategoria = new TextBox();
-            label_Nombre = new Label();
-            label_Medida = new Label();
-            cbbNuevoMedida = new ComboBox();
-            btnVolverNuevo = new Button();
+            btnBuscar = new Button();
+            btnNuevoLista = new Button();
+            dgvCategorias = new DataGridView();
+            tabNuevo = new TabPage();
             btnNuevoGuardar = new Button();
+            btnVolverNuevo = new Button();
+            cbbNuevoMedida = new ComboBox();
+            label_Medida = new Label();
+            label_Nombre = new Label();
+            txtNombreNuevoCategoria = new TextBox();
+            tabEditar = new TabPage();
+            cbbHabilitar = new ComboBox();
+            labelHabilitarEditar = new Label();
             button1 = new Button();
             button2 = new Button();
             cbbMedidaEditar = new ComboBox();
             label2 = new Label();
             labelEditarNombre = new Label();
             txtNombreEditar = new TextBox();
-            cbbHabilitar = new ComboBox();
-            labelHabilitarEditar = new Label();
+            label1 = new Label();
             tabControlPrincipal.SuspendLayout();
             tabLista.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCategorias).BeginInit();
             tabNuevo.SuspendLayout();
             tabEditar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCategorias).BeginInit();
             SuspendLayout();
             // 
             // tabControlPrincipal
@@ -84,6 +84,41 @@
             tabLista.Text = "Lista";
             tabLista.UseVisualStyleBackColor = true;
             // 
+            // txtBuscar
+            // 
+            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscar.Location = new Point(334, 27);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(249, 23);
+            txtBuscar.TabIndex = 4;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.Location = new Point(589, 27);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(111, 23);
+            btnBuscar.TabIndex = 3;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = true;
+            // 
+            // btnNuevoLista
+            // 
+            btnNuevoLista.Location = new Point(26, 27);
+            btnNuevoLista.Name = "btnNuevoLista";
+            btnNuevoLista.Size = new Size(111, 23);
+            btnNuevoLista.TabIndex = 2;
+            btnNuevoLista.Text = "Nuevo";
+            btnNuevoLista.UseVisualStyleBackColor = true;
+            // 
+            // dgvCategorias
+            // 
+            dgvCategorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCategorias.Location = new Point(26, 56);
+            dgvCategorias.Name = "dgvCategorias";
+            dgvCategorias.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
+            dgvCategorias.Size = new Size(674, 185);
+            dgvCategorias.TabIndex = 1;
+            // 
             // tabNuevo
             // 
             tabNuevo.Controls.Add(btnNuevoGuardar);
@@ -99,6 +134,58 @@
             tabNuevo.TabIndex = 1;
             tabNuevo.Text = "Nuevo";
             tabNuevo.UseVisualStyleBackColor = true;
+            // 
+            // btnNuevoGuardar
+            // 
+            btnNuevoGuardar.Location = new Point(558, 215);
+            btnNuevoGuardar.Name = "btnNuevoGuardar";
+            btnNuevoGuardar.Size = new Size(111, 23);
+            btnNuevoGuardar.TabIndex = 5;
+            btnNuevoGuardar.Text = "Guardar";
+            btnNuevoGuardar.UseVisualStyleBackColor = true;
+            // 
+            // btnVolverNuevo
+            // 
+            btnVolverNuevo.Location = new Point(28, 215);
+            btnVolverNuevo.Name = "btnVolverNuevo";
+            btnVolverNuevo.Size = new Size(111, 23);
+            btnVolverNuevo.TabIndex = 4;
+            btnVolverNuevo.Text = "Volver";
+            btnVolverNuevo.UseVisualStyleBackColor = true;
+            // 
+            // cbbNuevoMedida
+            // 
+            cbbNuevoMedida.FormattingEnabled = true;
+            cbbNuevoMedida.Location = new Point(28, 150);
+            cbbNuevoMedida.Name = "cbbNuevoMedida";
+            cbbNuevoMedida.Size = new Size(376, 23);
+            cbbNuevoMedida.TabIndex = 3;
+            // 
+            // label_Medida
+            // 
+            label_Medida.AutoSize = true;
+            label_Medida.Location = new Point(28, 132);
+            label_Medida.Name = "label_Medida";
+            label_Medida.Size = new Size(47, 15);
+            label_Medida.TabIndex = 2;
+            label_Medida.Text = "Medida";
+            // 
+            // label_Nombre
+            // 
+            label_Nombre.AutoSize = true;
+            label_Nombre.Location = new Point(28, 36);
+            label_Nombre.Name = "label_Nombre";
+            label_Nombre.Size = new Size(51, 15);
+            label_Nombre.TabIndex = 1;
+            label_Nombre.Text = "Nombre";
+            // 
+            // txtNombreNuevoCategoria
+            // 
+            txtNombreNuevoCategoria.BorderStyle = BorderStyle.FixedSingle;
+            txtNombreNuevoCategoria.Location = new Point(28, 54);
+            txtNombreNuevoCategoria.Name = "txtNombreNuevoCategoria";
+            txtNombreNuevoCategoria.Size = new Size(376, 23);
+            txtNombreNuevoCategoria.TabIndex = 0;
             // 
             // tabEditar
             // 
@@ -118,103 +205,23 @@
             tabEditar.Text = "Editar";
             tabEditar.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // cbbHabilitar
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label1.ForeColor = SystemColors.ActiveCaptionText;
-            label1.Location = new Point(28, 27);
-            label1.Name = "label1";
-            label1.Size = new Size(161, 15);
-            label1.TabIndex = 0;
-            label1.Text = "INVENTARIO / CATEGORIAS";
+            cbbHabilitar.FormattingEnabled = true;
+            cbbHabilitar.Location = new Point(42, 175);
+            cbbHabilitar.Name = "cbbHabilitar";
+            cbbHabilitar.Size = new Size(170, 23);
+            cbbHabilitar.TabIndex = 13;
+            cbbHabilitar.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
-            // dgvCategorias
+            // labelHabilitarEditar
             // 
-            dgvCategorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCategorias.Location = new Point(26, 56);
-            dgvCategorias.Name = "dgvCategorias";
-            dgvCategorias.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
-            dgvCategorias.Size = new Size(674, 185);
-            dgvCategorias.TabIndex = 1;
-            // 
-            // btnNuevoLista
-            // 
-            btnNuevoLista.Location = new Point(26, 27);
-            btnNuevoLista.Name = "btnNuevoLista";
-            btnNuevoLista.Size = new Size(111, 23);
-            btnNuevoLista.TabIndex = 2;
-            btnNuevoLista.Text = "Nuevo";
-            btnNuevoLista.UseVisualStyleBackColor = true;
-            // 
-            // btnBuscar
-            // 
-            btnBuscar.Location = new Point(589, 27);
-            btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(111, 23);
-            btnBuscar.TabIndex = 3;
-            btnBuscar.Text = "Buscar";
-            btnBuscar.UseVisualStyleBackColor = true;
-            // 
-            // txtBuscar
-            // 
-            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscar.Location = new Point(334, 27);
-            txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(249, 23);
-            txtBuscar.TabIndex = 4;
-            // 
-            // txtNombreNuevoCategoria
-            // 
-            txtNombreNuevoCategoria.BorderStyle = BorderStyle.FixedSingle;
-            txtNombreNuevoCategoria.Location = new Point(28, 54);
-            txtNombreNuevoCategoria.Name = "txtNombreNuevoCategoria";
-            txtNombreNuevoCategoria.Size = new Size(376, 23);
-            txtNombreNuevoCategoria.TabIndex = 0;
-            // 
-            // label_Nombre
-            // 
-            label_Nombre.AutoSize = true;
-            label_Nombre.Location = new Point(28, 36);
-            label_Nombre.Name = "label_Nombre";
-            label_Nombre.Size = new Size(51, 15);
-            label_Nombre.TabIndex = 1;
-            label_Nombre.Text = "Nombre";
-            // 
-            // label_Medida
-            // 
-            label_Medida.AutoSize = true;
-            label_Medida.Location = new Point(28, 132);
-            label_Medida.Name = "label_Medida";
-            label_Medida.Size = new Size(47, 15);
-            label_Medida.TabIndex = 2;
-            label_Medida.Text = "Medida";
-            // 
-            // cbbNuevoMedida
-            // 
-            cbbNuevoMedida.FormattingEnabled = true;
-            cbbNuevoMedida.Location = new Point(28, 150);
-            cbbNuevoMedida.Name = "cbbNuevoMedida";
-            cbbNuevoMedida.Size = new Size(376, 23);
-            cbbNuevoMedida.TabIndex = 3;
-            // 
-            // btnVolverNuevo
-            // 
-            btnVolverNuevo.Location = new Point(28, 215);
-            btnVolverNuevo.Name = "btnVolverNuevo";
-            btnVolverNuevo.Size = new Size(111, 23);
-            btnVolverNuevo.TabIndex = 4;
-            btnVolverNuevo.Text = "Volver";
-            btnVolverNuevo.UseVisualStyleBackColor = true;
-            // 
-            // btnNuevoGuardar
-            // 
-            btnNuevoGuardar.Location = new Point(558, 215);
-            btnNuevoGuardar.Name = "btnNuevoGuardar";
-            btnNuevoGuardar.Size = new Size(111, 23);
-            btnNuevoGuardar.TabIndex = 5;
-            btnNuevoGuardar.Text = "Guardar";
-            btnNuevoGuardar.UseVisualStyleBackColor = true;
+            labelHabilitarEditar.AutoSize = true;
+            labelHabilitarEditar.Location = new Point(42, 157);
+            labelHabilitarEditar.Name = "labelHabilitarEditar";
+            labelHabilitarEditar.Size = new Size(55, 15);
+            labelHabilitarEditar.TabIndex = 12;
+            labelHabilitarEditar.Text = "Habilitar:";
             // 
             // button1
             // 
@@ -268,23 +275,16 @@
             txtNombreEditar.Size = new Size(376, 23);
             txtNombreEditar.TabIndex = 6;
             // 
-            // cbbHabilitar
+            // label1
             // 
-            cbbHabilitar.FormattingEnabled = true;
-            cbbHabilitar.Location = new Point(42, 175);
-            cbbHabilitar.Name = "cbbHabilitar";
-            cbbHabilitar.Size = new Size(170, 23);
-            cbbHabilitar.TabIndex = 13;
-            cbbHabilitar.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
-            // 
-            // labelHabilitarEditar
-            // 
-            labelHabilitarEditar.AutoSize = true;
-            labelHabilitarEditar.Location = new Point(42, 157);
-            labelHabilitarEditar.Name = "labelHabilitarEditar";
-            labelHabilitarEditar.Size = new Size(55, 15);
-            labelHabilitarEditar.TabIndex = 12;
-            labelHabilitarEditar.Text = "Habilitar:";
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label1.ForeColor = SystemColors.ActiveCaptionText;
+            label1.Location = new Point(28, 27);
+            label1.Name = "label1";
+            label1.Size = new Size(161, 15);
+            label1.TabIndex = 0;
+            label1.Text = "INVENTARIO / CATEGORIAS";
             // 
             // frmCategoria
             // 
@@ -296,14 +296,15 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "frmCategoria";
             Text = "frmCategoria";
+            Load += frmCategoria_Load;
             tabControlPrincipal.ResumeLayout(false);
             tabLista.ResumeLayout(false);
             tabLista.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCategorias).EndInit();
             tabNuevo.ResumeLayout(false);
             tabNuevo.PerformLayout();
             tabEditar.ResumeLayout(false);
             tabEditar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCategorias).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

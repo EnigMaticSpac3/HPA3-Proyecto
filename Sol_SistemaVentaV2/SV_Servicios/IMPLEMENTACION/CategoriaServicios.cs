@@ -1,13 +1,13 @@
 ﻿using SV_Repositorio.ENTIDADES;
-using SV_Repositorio.IMPLEMENTACION;
+using SV_Repositorio.INTERFACES;
 using SV_Servicios.INTERFACES;
 
 namespace SV_Servicios.IMPLEMENTACION
 {
     public class CategoriaServicios : ICategoriaServicios
     {
-        private readonly CategoriaRepositorio _categoriaRepositorio;
-        public CategoriaServicios(CategoriaRepositorio categoriaRepositorio)
+        private readonly ICategoriaRepositorio _categoriaRepositorio;
+        public CategoriaServicios(ICategoriaRepositorio categoriaRepositorio)
         {
             _categoriaRepositorio = categoriaRepositorio;
         }
