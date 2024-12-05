@@ -1,4 +1,5 @@
-﻿using SV_Presentacion.VistaModelo;
+﻿using SV_Presentacion.Utilidades;
+using SV_Presentacion.VistaModelo;
 using SV_Servicios.INTERFACES;
 
 namespace SV_Presentacion.FORMULARIOS
@@ -25,22 +26,38 @@ namespace SV_Presentacion.FORMULARIOS
 
         }
 
-        private async void frmCategoria_Load(object sender, EventArgs e)
+        private async Task MostrarCategoria(string buscar = "")
         {
             // cuando se carga el formulario se crea una variable y se utiliza esa variable para cargar los datos en el datagridview
-            var listaCategoria = await _categoriaServicios.listaCategoria("");
+            var listaCategoria = await _categoriaServicios.listaCategoria(buscar);
 
             var listaVM = listaCategoria.Select(item => new VistaCategoria
             {
-                IdCategoria     = item.IdCategoria,
+                IdCategoria = item.IdCategoria,
                 NombreCategoria = item.NombreCategoria,
-                Activo          = item.Activo,
-                IdMedida        = item.RefMedida.IdMedida,
-                NombreMedida    = item.RefMedida.NomMedida,
-                Habilitado      = item.Activo == 1 ? "SI" : "NO"
+                Activo = item.Activo,
+                IdMedida = item.RefMedida.IdMedida,
+                NombreMedida = item.RefMedida.NomMedida,
+                Habilitado = item.Activo == 1 ? "SI" : "NO"
             }).ToList();
 
             dgvCategorias.DataSource = listaVM;
+
+            // se ocultan las columnas que no se quieren mostrar
+            dgvCategorias.Columns["IdCategoria"].Visible = false;
+            dgvCategorias.Columns["Activo"].Visible = false;
+            dgvCategorias.Columns["IdMedida"].Visible = false;
+        }
+
+        private async void frmCategoria_Load(object sender, EventArgs e)
+        {
+            dgvCategorias.ImplementarConfiguracion();
+            await MostrarCategoria();
+
+            
+            dgvCategorias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
         }
     }
 }
