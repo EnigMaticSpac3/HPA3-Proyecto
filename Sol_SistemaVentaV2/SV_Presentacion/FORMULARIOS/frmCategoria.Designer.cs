@@ -42,7 +42,7 @@
             label_Nombre = new Label();
             txtNombreNuevoCategoria = new TextBox();
             tabEditar = new TabPage();
-            cbbHabilitar = new ComboBox();
+            cbbHabilitado = new ComboBox();
             labelHabilitarEditar = new Label();
             button1 = new Button();
             button2 = new Button();
@@ -100,6 +100,7 @@
             btnBuscar.TabIndex = 3;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // btnNuevoLista
             // 
@@ -109,6 +110,7 @@
             btnNuevoLista.TabIndex = 2;
             btnNuevoLista.Text = "Nuevo";
             btnNuevoLista.UseVisualStyleBackColor = true;
+            btnNuevoLista.Click += btnNuevoLista_Click;
             // 
             // dgvCategorias
             // 
@@ -143,6 +145,7 @@
             btnNuevoGuardar.TabIndex = 5;
             btnNuevoGuardar.Text = "Guardar";
             btnNuevoGuardar.UseVisualStyleBackColor = true;
+            btnNuevoGuardar.Click += btnNuevoGuardar_Click;
             // 
             // btnVolverNuevo
             // 
@@ -152,6 +155,7 @@
             btnVolverNuevo.TabIndex = 4;
             btnVolverNuevo.Text = "Volver";
             btnVolverNuevo.UseVisualStyleBackColor = true;
+            btnVolverNuevo.Click += btnVolverNuevo_Click;
             // 
             // cbbNuevoMedida
             // 
@@ -189,7 +193,7 @@
             // 
             // tabEditar
             // 
-            tabEditar.Controls.Add(cbbHabilitar);
+            tabEditar.Controls.Add(cbbHabilitado);
             tabEditar.Controls.Add(labelHabilitarEditar);
             tabEditar.Controls.Add(button1);
             tabEditar.Controls.Add(button2);
@@ -205,14 +209,13 @@
             tabEditar.Text = "Editar";
             tabEditar.UseVisualStyleBackColor = true;
             // 
-            // cbbHabilitar
+            // cbbHabilitado
             // 
-            cbbHabilitar.FormattingEnabled = true;
-            cbbHabilitar.Location = new Point(42, 175);
-            cbbHabilitar.Name = "cbbHabilitar";
-            cbbHabilitar.Size = new Size(170, 23);
-            cbbHabilitar.TabIndex = 13;
-            cbbHabilitar.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            cbbHabilitado.FormattingEnabled = true;
+            cbbHabilitado.Location = new Point(42, 175);
+            cbbHabilitado.Name = "cbbHabilitado";
+            cbbHabilitado.Size = new Size(170, 23);
+            cbbHabilitado.TabIndex = 13;
             // 
             // labelHabilitarEditar
             // 
@@ -240,6 +243,7 @@
             button2.TabIndex = 10;
             button2.Text = "Volver";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // cbbMedidaEditar
             // 
@@ -333,7 +337,7 @@
         private Label label2;
         private Label labelEditarNombre;
         private TextBox txtNombreEditar;
-        private ComboBox cbbHabilitar;
+        private ComboBox cbbHabilitado;
         private Label labelHabilitarEditar;
     }
 }
