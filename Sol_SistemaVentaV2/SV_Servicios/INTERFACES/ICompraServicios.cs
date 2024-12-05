@@ -1,6 +1,4 @@
 ﻿using SV_Repositorio.ENTIDADES;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SV_Servicios.INTERFACES
 {

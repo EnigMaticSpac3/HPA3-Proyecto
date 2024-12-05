@@ -2,9 +2,7 @@
 using SV_Repositorio.BD;
 using SV_Repositorio.ENTIDADES;
 using SV_Repositorio.INTERFACES;
-using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace SV_Repositorio.IMPLEMENTACION
 {

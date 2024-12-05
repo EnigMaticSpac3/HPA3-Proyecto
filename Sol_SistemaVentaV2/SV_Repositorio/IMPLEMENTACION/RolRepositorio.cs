@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using SV_Repositorio.BD;
 using SV_Repositorio.Entidades;
-using SV_Repositorio.ENTIDADES;
 using SV_Repositorio.INTERFACES;
 using System.Data;
 

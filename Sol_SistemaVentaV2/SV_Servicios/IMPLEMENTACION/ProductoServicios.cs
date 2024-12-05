@@ -1,6 +1,6 @@
 ﻿using SV_Repositorio.ENTIDADES;
+using SV_Repositorio.INTERFACES;
 using SV_Servicios.INTERFACES;
-using SVRepositorio.INTERFACE;
 
 namespace SV_Servicios.IMPLEMENTACION
 {

@@ -1,4 +1,6 @@
-﻿namespace SV_Repositorio.Entidades
+﻿using SV_Repositorio.ENTIDADES;
+
+namespace SV_Repositorio.Entidades
 {
     public class Venta
     {
