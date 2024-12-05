@@ -15,6 +15,12 @@ namespace SV_Servicios
             services.AddTransient<IProductoServicios, ProductoServicios>();
             services.AddTransient<ICorrelativoVentaServicios, CorrelativoVentaServicios>();
             services.AddTransient<IVentaServicios, VentaServicios>();
+            services.AddTransient<IMenuServicio, MenuServicio>();
+            services.AddTransient<IUsuarioServicios, UsuarioServicios>();
+            services.AddTransient<IRolServicios, RolServicios>();
+            services.AddTransient<IMenuRolServicios, MenuRolServicios>();
+            services.AddTransient<IDetalleVentaServicios,  DetalleVentaServicios>();
+            services.AddTransient<ICompraServicios, CompraServicios>();
         }
 
 

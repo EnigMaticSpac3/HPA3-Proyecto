@@ -9,4 +9,4 @@ namespace SV_Servicios.INTERFACES
         Task<string> EditarUsuario(Usuario objeto);
     }
 }
-}
+

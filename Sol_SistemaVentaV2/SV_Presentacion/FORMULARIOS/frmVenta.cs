@@ -89,7 +89,7 @@ namespace SV_Presentacion.FORMULARIOS
                 Cambio = 0, // Actualizar con cambio real
             };
 
-            var respuesta = await _ventaServicios.CrearVenta(venta, _detalleVentas);
+            var respuesta = await _ventaServicios.CrearVenta(venta);
 
             if (string.IsNullOrEmpty(respuesta))
             {
