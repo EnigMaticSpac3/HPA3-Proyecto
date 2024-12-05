@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            btnVolverMenu = new Button();
             tabControlPrincipal = new TabControl();
             tabLista = new TabPage();
             txtBuscar = new TextBox();
@@ -57,6 +58,17 @@
             tabNuevo.SuspendLayout();
             tabEditar.SuspendLayout();
             SuspendLayout();
+            // 
+            // btnVolverMenu
+            // 
+            btnVolverMenu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnVolverMenu.Location = new Point(340, 363);
+            btnVolverMenu.Name = "btnVolverMenu";
+            btnVolverMenu.Size = new Size(100, 30);
+            btnVolverMenu.TabIndex = 0;
+            btnVolverMenu.Text = "Volver";
+            btnVolverMenu.UseVisualStyleBackColor = true;
+            btnVolverMenu.Click += btnVolverMenu_Click;
             // 
             // tabControlPrincipal
             // 
@@ -297,10 +309,11 @@
             ClientSize = new Size(800, 398);
             Controls.Add(label1);
             Controls.Add(tabControlPrincipal);
+            Controls.Add(btnVolverMenu);
             FormBorderStyle = FormBorderStyle.None;
             Name = "frmCategoria";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "frmCategoria";
+            Text = "Gestión de Categorías";
             Load += frmCategoria_Load;
             tabControlPrincipal.ResumeLayout(false);
             tabLista.ResumeLayout(false);
@@ -339,5 +352,6 @@
         private TextBox txtNombreEditar;
         private ComboBox cbbHabilitado;
         private Label labelHabilitarEditar;
+        private System.Windows.Forms.Button btnVolverMenu;
     }
 }

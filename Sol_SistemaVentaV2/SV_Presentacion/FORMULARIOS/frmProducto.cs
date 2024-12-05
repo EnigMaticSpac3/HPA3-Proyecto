@@ -17,6 +17,10 @@ namespace SV_Presentacion.FORMULARIOS
             _categoriaServicios = categoriaServicios;
             _productoServicios = productoServicios;
         }
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         public void MostrarTab(string tabName)
         {

@@ -15,6 +15,7 @@
 
         private void InitializeComponent()
         {
+            btnVolver = new Button();
             lblCategoria = new Label();
             cboCategoria = new ComboBox();
             lblCodigo = new Label();
@@ -36,6 +37,18 @@
             tabNuevo = new TabPage();
             btnNuevoGuardar = new Button();
             btnVolverNuevo = new Button();
+            lblCategoriaNuevo = new Label();
+            cboCategoriaNuevo = new ComboBox();
+            lblCodigoNuevo = new Label();
+            txtCodigoNuevo = new TextBox();
+            lblDescripcionNuevo = new Label();
+            txtDescripcionNuevo = new TextBox();
+            lblPrecioCompraNuevo = new Label();
+            txtPrecioCompraNuevo = new TextBox();
+            lblPrecioVentaNuevo = new Label();
+            txtPrecioVentaNuevo = new TextBox();
+            lblCantidadNuevo = new Label();
+            txtCantidadNuevo = new TextBox();
             tabEditar = new TabPage();
             btnGuardarEditar = new Button();
             button2 = new Button();
@@ -45,6 +58,17 @@
             tabNuevo.SuspendLayout();
             tabEditar.SuspendLayout();
             SuspendLayout();
+            // 
+            // btnVolver
+            // 
+            btnVolver.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnVolver.Location = new Point(325, 388);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(100, 30);
+            btnVolver.TabIndex = 0;
+            btnVolver.Text = "Volver";
+            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
             // 
             // lblCategoria
             // 
@@ -203,105 +227,9 @@
             txtBuscar.Size = new Size(160, 23);
             txtBuscar.TabIndex = 15;
             txtBuscar.TextAlign = HorizontalAlignment.Right;
-            Label lblCategoriaNuevo = new Label();
-            ComboBox cboCategoriaNuevo = new ComboBox();
-            Label lblCodigoNuevo = new Label();
-            TextBox txtCodigoNuevo = new TextBox();
-            Label lblDescripcionNuevo = new Label();
-            TextBox txtDescripcionNuevo = new TextBox();
-            Label lblPrecioCompraNuevo = new Label();
-            TextBox txtPrecioCompraNuevo = new TextBox();
-            Label lblPrecioVentaNuevo = new Label();
-            TextBox txtPrecioVentaNuevo = new TextBox();
-            Label lblCantidadNuevo = new Label();
-            TextBox txtCantidadNuevo = new TextBox();
-
-            // lblCategoriaNuevo
-            lblCategoriaNuevo.AutoSize = true;
-            lblCategoriaNuevo.Location = new Point(12, 9);
-            lblCategoriaNuevo.Name = "lblCategoriaNuevo";
-            lblCategoriaNuevo.Size = new Size(61, 15);
-            lblCategoriaNuevo.TabIndex = 0;
-            lblCategoriaNuevo.Text = "Categoría:";
-
-            // cboCategoriaNuevo
-            cboCategoriaNuevo.FormattingEnabled = true;
-            cboCategoriaNuevo.Location = new Point(76, 6);
-            cboCategoriaNuevo.Name = "cboCategoriaNuevo";
-            cboCategoriaNuevo.Size = new Size(200, 23);
-            cboCategoriaNuevo.TabIndex = 1;
-
-            // lblCodigoNuevo
-            lblCodigoNuevo.AutoSize = true;
-            lblCodigoNuevo.Location = new Point(12, 42);
-            lblCodigoNuevo.Name = "lblCodigoNuevo";
-            lblCodigoNuevo.Size = new Size(49, 15);
-            lblCodigoNuevo.TabIndex = 2;
-            lblCodigoNuevo.Text = "Código:";
-
-            // txtCodigoNuevo
-            txtCodigoNuevo.Location = new Point(76, 39);
-            txtCodigoNuevo.Name = "txtCodigoNuevo";
-            txtCodigoNuevo.Size = new Size(200, 23);
-            txtCodigoNuevo.TabIndex = 3;
-
-            // lblDescripcionNuevo
-            lblDescripcionNuevo.AutoSize = true;
-            lblDescripcionNuevo.Location = new Point(12, 75);
-            lblDescripcionNuevo.Name = "lblDescripcionNuevo";
-            lblDescripcionNuevo.Size = new Size(72, 15);
-            lblDescripcionNuevo.TabIndex = 4;
-            lblDescripcionNuevo.Text = "Descripción:";
-
-            // txtDescripcionNuevo
-            txtDescripcionNuevo.Location = new Point(76, 72);
-            txtDescripcionNuevo.Name = "txtDescripcionNuevo";
-            txtDescripcionNuevo.Size = new Size(200, 23);
-            txtDescripcionNuevo.TabIndex = 5;
-
-            // lblPrecioCompraNuevo
-            lblPrecioCompraNuevo.AutoSize = true;
-            lblPrecioCompraNuevo.Location = new Point(12, 108);
-            lblPrecioCompraNuevo.Name = "lblPrecioCompraNuevo";
-            lblPrecioCompraNuevo.Size = new Size(89, 15);
-            lblPrecioCompraNuevo.TabIndex = 6;
-            lblPrecioCompraNuevo.Text = "Precio Compra:";
-
-            // txtPrecioCompraNuevo
-            txtPrecioCompraNuevo.Location = new Point(104, 105);
-            txtPrecioCompraNuevo.Name = "txtPrecioCompraNuevo";
-            txtPrecioCompraNuevo.Size = new Size(100, 23);
-            txtPrecioCompraNuevo.TabIndex = 7;
-
-            // lblPrecioVentaNuevo
-            lblPrecioVentaNuevo.AutoSize = true;
-            lblPrecioVentaNuevo.Location = new Point(12, 141);
-            lblPrecioVentaNuevo.Name = "lblPrecioVentaNuevo";
-            lblPrecioVentaNuevo.Size = new Size(75, 15);
-            lblPrecioVentaNuevo.TabIndex = 8;
-            lblPrecioVentaNuevo.Text = "Precio Venta:";
-
-            // txtPrecioVentaNuevo
-            txtPrecioVentaNuevo.Location = new Point(104, 138);
-            txtPrecioVentaNuevo.Name = "txtPrecioVentaNuevo";
-            txtPrecioVentaNuevo.Size = new Size(100, 23);
-            txtPrecioVentaNuevo.TabIndex = 9;
-
-            // lblCantidadNuevo
-            lblCantidadNuevo.AutoSize = true;
-            lblCantidadNuevo.Location = new Point(12, 174);
-            lblCantidadNuevo.Name = "lblCantidadNuevo";
-            lblCantidadNuevo.Size = new Size(58, 15);
-            lblCantidadNuevo.TabIndex = 10;
-            lblCantidadNuevo.Text = "Cantidad:";
-
-            // txtCantidadNuevo
-            txtCantidadNuevo.Location = new Point(76, 171);
-            txtCantidadNuevo.Name = "txtCantidadNuevo";
-            txtCantidadNuevo.Size = new Size(100, 23);
-            txtCantidadNuevo.TabIndex = 11;
-
-            // Add new controls to tabNuevo
+            // 
+            // tabNuevo
+            // 
             tabNuevo.Controls.Add(btnNuevoGuardar);
             tabNuevo.Controls.Add(btnVolverNuevo);
             tabNuevo.Controls.Add(lblCategoriaNuevo);
@@ -316,7 +244,10 @@
             tabNuevo.Controls.Add(txtPrecioVentaNuevo);
             tabNuevo.Controls.Add(lblCantidadNuevo);
             tabNuevo.Controls.Add(txtCantidadNuevo);
+            tabNuevo.Location = new Point(4, 24);
             tabNuevo.Name = "tabNuevo";
+            tabNuevo.Size = new Size(725, 263);
+            tabNuevo.TabIndex = 1;
             tabNuevo.Text = "Nuevo";
             // 
             // btnNuevoGuardar
@@ -336,6 +267,103 @@
             btnVolverNuevo.TabIndex = 4;
             btnVolverNuevo.Text = "Volver";
             btnVolverNuevo.UseVisualStyleBackColor = true;
+            // 
+            // lblCategoriaNuevo
+            // 
+            lblCategoriaNuevo.AutoSize = true;
+            lblCategoriaNuevo.Location = new Point(12, 9);
+            lblCategoriaNuevo.Name = "lblCategoriaNuevo";
+            lblCategoriaNuevo.Size = new Size(61, 15);
+            lblCategoriaNuevo.TabIndex = 0;
+            lblCategoriaNuevo.Text = "Categoría:";
+            // 
+            // cboCategoriaNuevo
+            // 
+            cboCategoriaNuevo.FormattingEnabled = true;
+            cboCategoriaNuevo.Location = new Point(76, 6);
+            cboCategoriaNuevo.Name = "cboCategoriaNuevo";
+            cboCategoriaNuevo.Size = new Size(200, 23);
+            cboCategoriaNuevo.TabIndex = 1;
+            // 
+            // lblCodigoNuevo
+            // 
+            lblCodigoNuevo.AutoSize = true;
+            lblCodigoNuevo.Location = new Point(12, 42);
+            lblCodigoNuevo.Name = "lblCodigoNuevo";
+            lblCodigoNuevo.Size = new Size(49, 15);
+            lblCodigoNuevo.TabIndex = 2;
+            lblCodigoNuevo.Text = "Código:";
+            // 
+            // txtCodigoNuevo
+            // 
+            txtCodigoNuevo.Location = new Point(76, 39);
+            txtCodigoNuevo.Name = "txtCodigoNuevo";
+            txtCodigoNuevo.Size = new Size(200, 23);
+            txtCodigoNuevo.TabIndex = 3;
+            // 
+            // lblDescripcionNuevo
+            // 
+            lblDescripcionNuevo.AutoSize = true;
+            lblDescripcionNuevo.Location = new Point(12, 75);
+            lblDescripcionNuevo.Name = "lblDescripcionNuevo";
+            lblDescripcionNuevo.Size = new Size(72, 15);
+            lblDescripcionNuevo.TabIndex = 4;
+            lblDescripcionNuevo.Text = "Descripción:";
+            // 
+            // txtDescripcionNuevo
+            // 
+            txtDescripcionNuevo.Location = new Point(76, 72);
+            txtDescripcionNuevo.Name = "txtDescripcionNuevo";
+            txtDescripcionNuevo.Size = new Size(200, 23);
+            txtDescripcionNuevo.TabIndex = 5;
+            // 
+            // lblPrecioCompraNuevo
+            // 
+            lblPrecioCompraNuevo.AutoSize = true;
+            lblPrecioCompraNuevo.Location = new Point(12, 108);
+            lblPrecioCompraNuevo.Name = "lblPrecioCompraNuevo";
+            lblPrecioCompraNuevo.Size = new Size(89, 15);
+            lblPrecioCompraNuevo.TabIndex = 6;
+            lblPrecioCompraNuevo.Text = "Precio Compra:";
+            // 
+            // txtPrecioCompraNuevo
+            // 
+            txtPrecioCompraNuevo.Location = new Point(104, 105);
+            txtPrecioCompraNuevo.Name = "txtPrecioCompraNuevo";
+            txtPrecioCompraNuevo.Size = new Size(100, 23);
+            txtPrecioCompraNuevo.TabIndex = 7;
+            // 
+            // lblPrecioVentaNuevo
+            // 
+            lblPrecioVentaNuevo.AutoSize = true;
+            lblPrecioVentaNuevo.Location = new Point(12, 141);
+            lblPrecioVentaNuevo.Name = "lblPrecioVentaNuevo";
+            lblPrecioVentaNuevo.Size = new Size(75, 15);
+            lblPrecioVentaNuevo.TabIndex = 8;
+            lblPrecioVentaNuevo.Text = "Precio Venta:";
+            // 
+            // txtPrecioVentaNuevo
+            // 
+            txtPrecioVentaNuevo.Location = new Point(104, 138);
+            txtPrecioVentaNuevo.Name = "txtPrecioVentaNuevo";
+            txtPrecioVentaNuevo.Size = new Size(100, 23);
+            txtPrecioVentaNuevo.TabIndex = 9;
+            // 
+            // lblCantidadNuevo
+            // 
+            lblCantidadNuevo.AutoSize = true;
+            lblCantidadNuevo.Location = new Point(12, 174);
+            lblCantidadNuevo.Name = "lblCantidadNuevo";
+            lblCantidadNuevo.Size = new Size(58, 15);
+            lblCantidadNuevo.TabIndex = 10;
+            lblCantidadNuevo.Text = "Cantidad:";
+            // 
+            // txtCantidadNuevo
+            // 
+            txtCantidadNuevo.Location = new Point(76, 171);
+            txtCantidadNuevo.Name = "txtCantidadNuevo";
+            txtCantidadNuevo.Size = new Size(100, 23);
+            txtCantidadNuevo.TabIndex = 11;
             // 
             // tabEditar
             // 
@@ -382,6 +410,7 @@
             // 
             ClientSize = new Size(784, 441);
             Controls.Add(tabControlPrincipal);
+            Controls.Add(btnVolver);
             Name = "frmProducto";
             Text = "Gestionar Productos";
             ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();
@@ -389,6 +418,7 @@
             tabLista.ResumeLayout(false);
             tabLista.PerformLayout();
             tabNuevo.ResumeLayout(false);
+            tabNuevo.PerformLayout();
             tabEditar.ResumeLayout(false);
             tabEditar.PerformLayout();
             ResumeLayout(false);
@@ -421,5 +451,18 @@
         #endregion
 
         private TextBox txtBuscar;
+        private System.Windows.Forms.Button btnVolver;
+        private Label lblCategoriaNuevo;
+        private ComboBox cboCategoriaNuevo;
+        private Label lblCodigoNuevo;
+        private TextBox txtCodigoNuevo;
+        private Label lblDescripcionNuevo;
+        private TextBox txtDescripcionNuevo;
+        private Label lblPrecioCompraNuevo;
+        private TextBox txtPrecioCompraNuevo;
+        private Label lblPrecioVentaNuevo;
+        private TextBox txtPrecioVentaNuevo;
+        private Label lblCantidadNuevo;
+        private TextBox txtCantidadNuevo;
     }
 }

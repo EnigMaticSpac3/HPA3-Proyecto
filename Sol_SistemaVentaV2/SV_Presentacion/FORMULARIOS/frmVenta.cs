@@ -19,6 +19,11 @@ namespace SV_Presentacion.FORMULARIOS
             _productoServicios = productoServicios;
             _ventaServicios = ventaServicios;
         }
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
         private async void frmVenta_Load(object sender, EventArgs e)
         {
