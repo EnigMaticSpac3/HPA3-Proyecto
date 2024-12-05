@@ -64,7 +64,6 @@ namespace SV_Repositorio.IMPLEMENTACION
                 cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
                 cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
                 cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
-
                 cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -77,7 +76,6 @@ namespace SV_Repositorio.IMPLEMENTACION
                 {
                     respuesta = "Error(Crear Producto), No se pudo insertar el registro";
                 }
-
             }
             return respuesta;
         }
@@ -89,13 +87,16 @@ namespace SV_Repositorio.IMPLEMENTACION
             {
                 cn.Open();
                 var cmd = new SqlCommand("sp_editarProducto", cn);
-                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
+
+                cmd.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
                 cmd.Parameters.AddWithValue("@Codigo", producto.Codigo);
                 cmd.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
                 cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
                 cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
                 cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
 
+                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
+                cmd.Parameters.AddWithValue("@Activo", producto.Activo);
                 cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -108,7 +109,6 @@ namespace SV_Repositorio.IMPLEMENTACION
                 {
                     respuesta = "Error(Editar Producto), No se pudo actualizar el registro";
                 }
-                
             }
             return respuesta;
         }

@@ -1,4 +1,5 @@
-﻿
+using SV_Repositorio.ENTIDADES;
+
 namespace SV_Repositorio.ENTIDADES
 {
     public class Producto
