@@ -1,4 +1,5 @@
-﻿using SV_Servicios.INTERFACES;
+﻿using SV_Presentacion.VistaModelo;
+using SV_Servicios.INTERFACES;
 
 namespace SV_Presentacion.FORMULARIOS
 {
@@ -27,8 +28,19 @@ namespace SV_Presentacion.FORMULARIOS
         private async void frmCategoria_Load(object sender, EventArgs e)
         {
             // cuando se carga el formulario se crea una variable y se utiliza esa variable para cargar los datos en el datagridview
-            var listaCategoria = await _categoriaServicios.listaCategoria();
-            dgvCategorias.DataSource = listaCategoria;
+            var listaCategoria = await _categoriaServicios.listaCategoria("");
+
+            var listaVM = listaCategoria.Select(item => new VistaCategoria
+            {
+                IdCategoria     = item.IdCategoria,
+                NombreCategoria = item.NombreCategoria,
+                Activo          = item.Activo,
+                IdMedida        = item.RefMedida.IdMedida,
+                NombreMedida    = item.RefMedida.NomMedida,
+                Habilitado      = item.Activo == 1 ? "SI" : "NO"
+            }).ToList();
+
+            dgvCategorias.DataSource = listaVM;
         }
     }
 }

@@ -295,6 +295,7 @@
             Controls.Add(tabControlPrincipal);
             FormBorderStyle = FormBorderStyle.None;
             Name = "frmCategoria";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "frmCategoria";
             Load += frmCategoria_Load;
             tabControlPrincipal.ResumeLayout(false);
