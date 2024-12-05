@@ -22,7 +22,7 @@ namespace SV_Repositorio.IMPLEMENTACION
             using (var cn = _conexion.ObtenerSql())
             {
                 cn.Open();
-                var cmd = new SqlCommand("sp_listaCategoria", cn);
+                var cmd = new SqlCommand("sp_listarCategoria", cn);
                 cmd.Parameters.AddWithValue("@Buscar", buscar);
                 cmd.CommandType = CommandType.StoredProcedure;
 

@@ -1,11 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using SV_Repositorio.BD;
 using SV_Repositorio.ENTIDADES;
-using SVRepositorio.ENTIDADES;
-using SVRepositorio.INTERFACE;
+using SV_Repositorio.INTERFACES;
 using System.Data;
 
-namespace SVRepositorio.IMPLEMENTACION
+namespace SV_Repositorio.IMPLEMENTACION
 {
     public class ProductoRepositorio : IProductoRepositorio
     {
@@ -114,5 +113,5 @@ namespace SVRepositorio.IMPLEMENTACION
             return respuesta;
         }
     }
-    }
 }
+
