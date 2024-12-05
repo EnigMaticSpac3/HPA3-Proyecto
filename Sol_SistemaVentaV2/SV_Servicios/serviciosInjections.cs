@@ -12,7 +12,9 @@ namespace SV_Servicios
             services.AddTransient<Conexion>(); // se registra la conexion
             services.AddTransient<IMedidaServicios, MedidaServicios>();
             services.AddTransient<ICategoriaServicios, CategoriaServicios>();
-            //services.AddTransient<IProductoRepositorio, ProductoRepositorio>();
+            services.AddTransient<IProductoServicios, ProductoServicios>();
+            services.AddTransient<ICorrelativoVentaServicios, CorrelativoVentaServicios>();
+            services.AddTransient<IVentaServicios, VentaServicios>();
         }
 
 

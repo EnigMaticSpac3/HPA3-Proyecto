@@ -36,6 +36,11 @@ namespace SV_Presentacion
 
                     //llamar al formulario como un servicio
                     services.AddTransient<frmCategoria>();
+
+                    // Registrar formularios
+                    services.AddTransient<frmCategoria>();
+                    services.AddTransient<frmVenta>();
+                    services.AddTransient<frmProducto>();
                 });
 
     }

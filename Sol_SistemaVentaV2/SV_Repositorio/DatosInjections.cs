@@ -13,6 +13,9 @@ namespace SV_Repositorio
             services.AddTransient<IMedidaRepositorio, MedidaRepositorio>();
             services.AddTransient<ICategoriaRepositorio, CategoriaRepositorio>();
             services.AddTransient<IProductoRepositorio, ProductoRepositorio>();
+            services.AddTransient<ICorrelativoVentaRepositorio, CorrelativoVentaRepositorio>();
+            services.AddTransient<IVentaRepositorio, VentaRepositorio>();
+
         }
 
 
