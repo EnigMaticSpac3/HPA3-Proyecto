@@ -1,7 +1,11 @@
 ﻿
+using SV_Repositorio.ENTIDADES;
+
 namespace SV_Servicios.INTERFACES
 {
-    internal interface IMedidaServicios
+    public interface IMedidaServicios
     {
+        Task<List<Medida>> listaMedida();//Nombre del objeto
+
     }
 }

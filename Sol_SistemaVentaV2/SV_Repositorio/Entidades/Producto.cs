@@ -1,4 +1,4 @@
-﻿using SV_Repositorio.ENTIDADES;
+using SV_Repositorio.ENTIDADES;
 
 namespace SV_Repositorio.ENTIDADES
 {

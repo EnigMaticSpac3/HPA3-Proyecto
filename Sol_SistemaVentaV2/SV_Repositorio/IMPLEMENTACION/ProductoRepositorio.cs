@@ -1,12 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using SV_Repositorio.BD;
 using SV_Repositorio.ENTIDADES;
-using SVRepositorio.BD;
-using SVRepositorio.ENTIDADES;
-using SVRepositorio.INTERFACE;
+using SV_Repositorio.INTERFACES;
 using System.Data;
 
-namespace SVRepositorio.IMPLEMENTACION
+namespace SV_Repositorio.IMPLEMENTACION
 {
     public class ProductoRepositorio : IProductoRepositorio
     {
@@ -60,17 +58,24 @@ namespace SVRepositorio.IMPLEMENTACION
             {
                 cn.Open();
                 var cmd = new SqlCommand("sp_crearProducto", cn);
+                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
                 cmd.Parameters.AddWithValue("@Codigo", producto.Codigo);
                 cmd.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
                 cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
                 cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
                 cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
-                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
-                cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                await cmd.ExecuteNonQueryAsync();
-                respuesta = cmd.Parameters["@Mensaje"].Value.ToString()!;
+                try
+                {
+                    await cmd.ExecuteNonQueryAsync();
+                    respuesta = cmd.Parameters["@MsjError"].Value.ToString()!;
+                }
+                catch 
+                {
+                    respuesta = "Error(Crear Producto), No se pudo insertar el registro";
+                }
             }
             return respuesta;
         }
@@ -82,21 +87,31 @@ namespace SVRepositorio.IMPLEMENTACION
             {
                 cn.Open();
                 var cmd = new SqlCommand("sp_editarProducto", cn);
+
                 cmd.Parameters.AddWithValue("@IdProducto", producto.IdProducto);
                 cmd.Parameters.AddWithValue("@Codigo", producto.Codigo);
                 cmd.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
                 cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
                 cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
                 cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
+
                 cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
                 cmd.Parameters.AddWithValue("@Activo", producto.Activo);
                 cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                await cmd.ExecuteNonQueryAsync();
-                respuesta = cmd.Parameters["@Mensaje"].Value.ToString()!;
+                try
+                {
+                    await cmd.ExecuteNonQueryAsync();
+                    respuesta = cmd.Parameters["@Mensaje"].Value.ToString()!;
+                }
+                catch
+                {
+                    respuesta = "Error(Editar Producto), No se pudo actualizar el registro";
+                }
             }
             return respuesta;
         }
     }
 }
+

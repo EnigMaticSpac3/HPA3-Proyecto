@@ -1,6 +1,6 @@
 ﻿using SV_Repositorio.ENTIDADES;
 
-namespace SVRepositorio.INTERFACE
+namespace SV_Repositorio.INTERFACES
 {
     public interface IProductoRepositorio
     {
