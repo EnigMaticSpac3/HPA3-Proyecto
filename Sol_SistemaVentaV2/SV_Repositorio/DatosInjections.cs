@@ -13,10 +13,18 @@ namespace SV_Repositorio
             services.AddTransient<IMedidaRepositorio, MedidaRepositorio>();
             services.AddTransient<ICategoriaRepositorio, CategoriaRepositorio>();
             services.AddTransient<IProductoRepositorio, ProductoRepositorio>();
+            services.AddTransient<ICorrelativoVentaRepositorio, CorrelativoVentaRepositorio>();
+            services.AddTransient<IVentaRepositorio, VentaRepositorio>();
+            services.AddTransient<IMenuRepositorio, MenuRepositorio>();
+            services.AddTransient<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddTransient<IRolRepositorio, RolRepositorio>();
+            services.AddTransient<IMenuRolRepositorio, MenuRolRepositorio>();
+            services.AddTransient<ICompraRepositorio, CompraRepositorio>();
+            services.AddTransient<IDetalleVentaRepositorio, DetalleVentaRepositorio>();
         }
 
 
-        
+
 
     }
 }

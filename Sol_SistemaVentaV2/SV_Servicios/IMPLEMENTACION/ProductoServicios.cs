@@ -18,7 +18,16 @@ namespace SV_Servicios.IMPLEMENTACION
 
         public async Task<string> EditarProducto(Producto producto)
         {
-            return await _productoRepositorio.EditarProducto(producto);
+            try
+            {
+                // Llamada al repositorio para actualizar el producto en la base de datos
+                return await _productoRepositorio.EditarProducto(producto);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                return $"Error al actualizar el producto: {ex.Message}";
+            }
         }
 
         public async Task<List<Producto>> listaProducto(string buscar = "")

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using SV_Repositorio.BD;
 using SV_Repositorio.Entidades;
+using SV_Repositorio.ENTIDADES;
 using SV_Repositorio.INTERFACES;
 using System.Data;
 
@@ -58,7 +59,7 @@ namespace SV_Repositorio.IMPLEMENTACION
                             RefUsuarioRegistro = new Usuario
                             {
                                 IdUsuario = Convert.ToInt32(dr["IdUsuarioRegistro"]),
-                                NombreCompleto = dr["UsuarioRegistro"].ToString()!
+                                NombreUsuario = dr["UsuarioRegistro"].ToString()!
                             },
                             NombreCliente = dr["NombreCliente"].ToString()!,
                             PrecioTotal = Convert.ToDecimal(dr["PrecioTotal"]),

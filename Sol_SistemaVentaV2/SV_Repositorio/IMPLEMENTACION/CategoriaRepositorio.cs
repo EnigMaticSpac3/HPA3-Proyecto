@@ -38,7 +38,7 @@ namespace SV_Repositorio.IMPLEMENTACION
                             RefMedida = new Medida
                             {
                                 IdMedida = Convert.ToInt32(dr["IdMedida"]),
-                                NomMedida = (dr["NombreMedida"]).ToString()!
+                                NomMedida = (dr["NomMedida"]).ToString()!
                             }
                         });
                     }

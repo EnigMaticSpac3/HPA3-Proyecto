@@ -17,6 +17,10 @@ namespace SV_Presentacion.FORMULARIOS
             _medidaServicios = medidaServicios;
             _categoriaServicios = categoriaServicios;
         }
+        private void btnVolverMenu_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         public void MostrarTab(string tabName)
         {
