@@ -10,108 +10,157 @@ namespace SV_Presentacion.FORMULARIOS
     {
         private readonly IProductoServicios _productoServicios;
         private readonly IVentaServicios _ventaServicios;
+        private readonly IDetalleVentaServicios _detalleVentaServicios;
+        private List<Producto> _productosDisponibles = new();
+        private List<DetalleVenta> _detallesVenta = new();
+        private decimal _totalVenta = 0;
 
-        private List<DetalleVenta> _detalleVentas = new();
-
-        public frmVenta(IProductoServicios productoServicios, IVentaServicios ventaServicios)
+        public frmVenta(IProductoServicios productoServicios, IVentaServicios ventaServicios, IDetalleVentaServicios detalleVentaServicios)
         {
             InitializeComponent();
             _productoServicios = productoServicios;
             _ventaServicios = ventaServicios;
+            _detalleVentaServicios = detalleVentaServicios;
         }
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
 
         private async void frmVenta_Load(object sender, EventArgs e)
         {
+            // Configurar DataGridView
             dgvDetalleVenta.ImplementarConfiguracion();
+            dgvDetalleVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvVentas.ImplementarConfiguracion("Detalles");
 
-            var productos = await _productoServicios.listaProducto();
-            var items = productos.Select(p => new OpcionCombo
+            // Cargar productos disponibles
+            await CargarProductos();
+
+            // Mostrar ventas realizadas
+            await MostrarVentas();
+        }
+
+        private async Task CargarProductos()
+        {
+            _productosDisponibles = await _productoServicios.listaProducto();
+            var items = _productosDisponibles.Select(p => new OpcionCombo
             {
-                Texto = p.Descripcion,
+                Texto = $"{p.Descripcion} - {p.Codigo}",
                 Valor = p.IdProducto
             }).ToArray();
-
             cboProductos.InsertarItems(items);
         }
 
         private void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-            if (cboProductos.SelectedItem == null)
+            if (cboProductos.SelectedItem is OpcionCombo productoSeleccionado)
             {
-                MessageBox.Show("Seleccione un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                var producto = _productosDisponibles.FirstOrDefault(p => p.IdProducto == productoSeleccionado.Valor);
+                if (producto != null)
+                {
+                    // Agregar producto al detalle de venta
+                    _detallesVenta.Add(new DetalleVenta
+                    {
+                        RefProducto = producto,
+                        PrecioVenta = producto.PrecioVenta,
+                        Cantidad = 1 // Por simplicidad, cantidad fija de 1
+                    });
+
+                    // Actualizar total
+                    _totalVenta += producto.PrecioVenta;
+                    txtTotal.Text = _totalVenta.ToString("C");
+
+                    // Refrescar DataGridView
+                    dgvDetalleVenta.DataSource = null;
+                    dgvDetalleVenta.DataSource = _detallesVenta.Select(d => new
+                    {
+                        d.RefProducto.Descripcion,
+                        d.RefProducto.Codigo,
+                        Categoria = d.RefProducto.RefCategoria.NombreCategoria,
+                        d.PrecioVenta
+                    }).ToList();
+                }
             }
-
-            var productoSeleccionado = (OpcionCombo)cboProductos.SelectedItem!;
-            var idProducto = productoSeleccionado.Valor;
-
-            if (_detalleVentas.Any(d => d.RefProducto.IdProducto == idProducto))
-            {
-                MessageBox.Show("El producto ya está en el detalle.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var detalle = new DetalleVenta
-            {
-                RefProducto = new Producto { IdProducto = idProducto, Descripcion = productoSeleccionado.Texto },
-                Cantidad = 1, // Valor predeterminado
-                PrecioVenta = 100, // Valor predeterminado
-                PrecioTotal = 100 // Calcular cantidad * precio
-            };
-
-            _detalleVentas.Add(detalle);
-            ActualizarDetalleVenta();
-        }
-
-        private void ActualizarDetalleVenta()
-        {
-            dgvDetalleVenta.DataSource = null;
-            dgvDetalleVenta.DataSource = _detalleVentas;
-
-            txtTotal.Text = _detalleVentas.Sum(d => d.PrecioTotal).ToString("0.00");
         }
 
         private async void btnRegistrarVenta_Click(object sender, EventArgs e)
         {
-            if (_detalleVentas.Count == 0)
+            if (string.IsNullOrWhiteSpace(txtCliente.Text))
+            {
+                MessageBox.Show("Debe ingresar el nombre del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (_detallesVenta.Count == 0)
             {
                 MessageBox.Show("Debe agregar al menos un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var venta = new Venta
-            {
-                NumeroVenta = "001-000001", // Generar dinámicamente
-                NombreCliente = txtCliente.Text.Trim(),
-                PrecioTotal = _detalleVentas.Sum(d => d.PrecioTotal),
-                RefUsuarioRegistro = new Usuario { IdUsuario = 1 }, // Usuario predeterminado
-                PagoCon = 0, // Actualizar con pago real
-                Cambio = 0, // Actualizar con cambio real
-            };
+            var confirmacion = MessageBox.Show(
+                $"¿Confirma la venta por un total de {_totalVenta:C}?",
+                "Confirmación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-            var respuesta = await _ventaServicios.CrearVenta(venta);
+            if (confirmacion == DialogResult.Yes)
+            {
+                var venta = new Venta
+                {
+                    NombreCliente = txtCliente.Text,
+                    PrecioTotal = _totalVenta,
+                    FechaRegistro = DateTime.Now,
+                };
 
-            if (string.IsNullOrEmpty(respuesta))
-            {
-                MessageBox.Show("Venta registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LimpiarFormulario();
-            }
-            else
-            {
-                MessageBox.Show(respuesta, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var respuesta = await _ventaServicios.CrearVenta(venta);
+                if (string.IsNullOrEmpty(respuesta))
+                {
+                    MessageBox.Show("Venta registrada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Reiniciar estado
+                    _detallesVenta.Clear();
+                    _totalVenta = 0;
+                    txtTotal.Text = "";
+                    dgvDetalleVenta.DataSource = null;
+                    txtCliente.Text = "";
+
+                    // Refrescar lista de ventas
+                    await MostrarVentas();
+                }
+                else
+                {
+                    MessageBox.Show(respuesta, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        private void LimpiarFormulario()
+        private async Task MostrarVentas()
         {
-            txtCliente.Clear();
-            _detalleVentas.Clear();
-            ActualizarDetalleVenta();
+            var ventas = await _ventaServicios.listaVenta();
+            dgvVentas.DataSource = ventas.Select(v => new
+            {
+                v.NumeroVenta,
+                v.NombreCliente,
+                v.PrecioTotal,
+                v.FechaRegistro
+            }).ToList();
+
+            dgvVentas.Columns["NumeroVenta"].HeaderText = "N° Venta";
+            dgvVentas.Columns["NombreCliente"].HeaderText = "Cliente";
+            dgvVentas.Columns["PrecioTotal"].HeaderText = "Total";
+            dgvVentas.Columns["FechaRegistro"].HeaderText = "Fecha";
         }
+
+        private async void dgvVentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvVentas.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                var numeroVenta = dgvVentas.Rows[e.RowIndex].Cells["NumeroVenta"].Value.ToString();
+                if (!string.IsNullOrEmpty(numeroVenta))
+                {
+                    var detallesVenta = await _ventaServicios.ObtenerDetalleVenta(numeroVenta);
+                    var frmDetalles = new frmDetalleVenta(detallesVenta.ToArray());
+                    frmDetalles.ShowDialog();
+                }
+            }
+        }
+
     }
 }

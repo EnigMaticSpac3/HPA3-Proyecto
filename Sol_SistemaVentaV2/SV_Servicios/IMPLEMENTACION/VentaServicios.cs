@@ -20,5 +20,10 @@ namespace SV_Servicios.IMPLEMENTACION
         {
             return await _ventaRepositorio.listaVenta(buscar);
         }
+        public async Task<List<DetalleVenta>> ObtenerDetalleVenta(string numeroVenta)
+        {
+            return await _ventaRepositorio.ObtenerDetalleVenta(numeroVenta);
+        }
+
     }
 }

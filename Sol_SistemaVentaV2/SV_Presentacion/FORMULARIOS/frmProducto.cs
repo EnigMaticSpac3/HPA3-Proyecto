@@ -67,20 +67,27 @@ namespace SV_Presentacion.FORMULARIOS
         {
             // Solo mostrar el tab de lista
             MostrarTab(tabLista.Name);
+            await MostrarProducto(txtBuscar.Text);
 
             dgvProductos.ImplementarConfiguracion("Editar");
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            await MostrarProducto();
 
             // Cargar categorías en el ComboBox
             var listaCategorias = await _categoriaServicios.listaCategoria();
-            var items = listaCategorias.Select(item => new OpcionCombo
+            if (listaCategorias.Count > 0)
             {
-                Texto = item.NombreCategoria,
-                Valor = item.IdCategoria
-            }).ToArray();
+                var items = listaCategorias.Select(item => new OpcionCombo
+                {
+                    Texto = item.NombreCategoria,
+                    Valor = item.IdCategoria
+                }).ToArray();
 
-            cboCategoria.InsertarItems(items);
+                cboCategoria.InsertarItems(items);
+            }
+            else
+            {
+                MessageBox.Show("No hay categorías disponibles. Agregue al menos una categoría.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private async void btnBuscarProducto_Click(object sender, EventArgs e)
@@ -90,11 +97,21 @@ namespace SV_Presentacion.FORMULARIOS
 
         private void btnAgregarProducto_Click(object sender, EventArgs e)
         {
+            if (cboCategoria.Items.Count == 0)
+            {
+                MessageBox.Show("Debe haber al menos una categoría para agregar un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Limpiar los campos del formulario
             LimpiarCamposNuevo();
+
+            // Mostrar la pestaña para agregar
             tabLista.Parent = null;
             tabEditar.Parent = null;
             MostrarTab(tabNuevo.Name);
         }
+
 
         private void LimpiarCamposNuevo()
         {
@@ -103,8 +120,13 @@ namespace SV_Presentacion.FORMULARIOS
             txtPrecioCompra.Text = "";
             txtPrecioVenta.Text = "";
             txtCantidad.Text = "";
-            cboCategoria.SelectedIndex = 0;
+
+            if (cboCategoria.Items.Count > 0)
+            {
+                cboCategoria.SelectedIndex = 0;
+            }
         }
+
 
         private void btnVolverNuevo_Click(object sender, EventArgs e)
         {
@@ -132,7 +154,19 @@ namespace SV_Presentacion.FORMULARIOS
 
             // Obtener los datos del producto editado
             var categoriaSeleccionada = (OpcionCombo)cboCategoria.SelectedItem!;
-            var idProducto = (int)dgvProductos.SelectedRows[0].Cells["IdProducto"].Value; // Obtener el IdProducto desde el DataGridView
+            
+            if (dgvProductos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un producto para editar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (dgvProductos.SelectedRows[0].Cells["IdProducto"].Value is not int idProducto)
+            {
+                MessageBox.Show("No se pudo obtener el ID del producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
 
             var productoEditado = new Producto
             {
@@ -180,6 +214,16 @@ namespace SV_Presentacion.FORMULARIOS
                 MessageBox.Show("La descripción es obligatoria", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text) ||
+                string.IsNullOrWhiteSpace(txtDescripcion.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ||
+                string.IsNullOrWhiteSpace(txtCantidad.Text))
+            {
+                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
 
             var categoriaSeleccionada = (OpcionCombo)cboCategoria.SelectedItem!;
 

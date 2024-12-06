@@ -35,6 +35,7 @@ namespace SV_Presentacion
                 services.AddTransient<frmCategoria>();
                 services.AddTransient<frmProducto>();
                 services.AddTransient<frmVenta>();
+                services.AddTransient<frmDetalleVenta>();
             });
     }
 }

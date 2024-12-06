@@ -15,6 +15,7 @@
 
         private void InitializeComponent()
         {
+
             btnVolver = new Button();
             lblCategoria = new Label();
             cboCategoria = new ComboBox();
@@ -58,6 +59,16 @@
             tabNuevo.SuspendLayout();
             tabEditar.SuspendLayout();
             SuspendLayout();
+
+
+
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            this.btnAgregarProducto.Click += new System.EventHandler(this.btnAgregarProducto_Click);
+            this.btnNuevoGuardar.Click += new System.EventHandler(this.btnNuevoGuardar_Click);
+            this.btnGuardarEditar.Click += new System.EventHandler(this.btnGuardarEditar_Click);
+            this.btnBuscarProducto.Click += new System.EventHandler(this.btnBuscarProducto_Click);
+            this.btnVolverNuevo.Click += new System.EventHandler(this.btnVolverNuevo_Click);
+
             // 
             // btnVolver
             // 
@@ -114,7 +125,7 @@
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(76, 72);
+            txtDescripcion.Location = new Point(90, 72);
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(200, 23);
             txtDescripcion.TabIndex = 5;
@@ -312,7 +323,7 @@
             // 
             // txtDescripcionNuevo
             // 
-            txtDescripcionNuevo.Location = new Point(76, 72);
+            txtDescripcionNuevo.Location = new Point(90, 72);
             txtDescripcionNuevo.Name = "txtDescripcionNuevo";
             txtDescripcionNuevo.Size = new Size(200, 23);
             txtDescripcionNuevo.TabIndex = 5;
