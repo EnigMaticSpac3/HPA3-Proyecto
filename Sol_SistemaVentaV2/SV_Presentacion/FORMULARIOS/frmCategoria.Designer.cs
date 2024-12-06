@@ -45,7 +45,7 @@
             tabEditar = new TabPage();
             cbbHabilitado = new ComboBox();
             labelHabilitarEditar = new Label();
-            button1 = new Button();
+            btnEditarGuardar = new Button();
             button2 = new Button();
             cbbMedidaEditar = new ComboBox();
             label2 = new Label();
@@ -207,7 +207,7 @@
             // 
             tabEditar.Controls.Add(cbbHabilitado);
             tabEditar.Controls.Add(labelHabilitarEditar);
-            tabEditar.Controls.Add(button1);
+            tabEditar.Controls.Add(btnEditarGuardar);
             tabEditar.Controls.Add(button2);
             tabEditar.Controls.Add(cbbMedidaEditar);
             tabEditar.Controls.Add(label2);
@@ -238,14 +238,15 @@
             labelHabilitarEditar.TabIndex = 12;
             labelHabilitarEditar.Text = "Habilitar:";
             // 
-            // button1
+            // btnEditarGuardar
             // 
-            button1.Location = new Point(572, 223);
-            button1.Name = "button1";
-            button1.Size = new Size(111, 23);
-            button1.TabIndex = 11;
-            button1.Text = "Guardar";
-            button1.UseVisualStyleBackColor = true;
+            btnEditarGuardar.Location = new Point(572, 223);
+            btnEditarGuardar.Name = "btnEditarGuardar";
+            btnEditarGuardar.Size = new Size(111, 23);
+            btnEditarGuardar.TabIndex = 11;
+            btnEditarGuardar.Text = "Guardar";
+            btnEditarGuardar.UseVisualStyleBackColor = true;
+            btnEditarGuardar.Click += btnEditarGuardar_Click;
             // 
             // button2
             // 
@@ -344,7 +345,7 @@
         private TextBox txtNombreNuevoCategoria;
         private Button btnNuevoGuardar;
         private Button btnVolverNuevo;
-        private Button button1;
+        private Button btnEditarGuardar;
         private Button button2;
         private ComboBox cbbMedidaEditar;
         private Label label2;

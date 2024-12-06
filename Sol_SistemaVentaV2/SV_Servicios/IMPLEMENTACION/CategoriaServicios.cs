@@ -26,5 +26,18 @@ namespace SV_Servicios.IMPLEMENTACION
         {
             return await _categoriaRepositorio.EditarCategoria(objeto);
         }
+
+        public async Task<Categoria> ObtenerCategoriaPorId(int idCategoria)
+        {
+            try
+            {
+                return await _categoriaRepositorio.ObtenerCategoriaPorId(idCategoria);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
