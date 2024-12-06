@@ -10,6 +10,8 @@ namespace SV_Presentacion.FORMULARIOS
     {
         private readonly ICategoriaServicios _categoriaServicios;
         private readonly IProductoServicios _productoServicios;
+        private bool _needsRefresh = true;
+
 
         public frmProducto(ICategoriaServicios categoriaServicios, IProductoServicios productoServicios)
         {
@@ -37,7 +39,15 @@ namespace SV_Presentacion.FORMULARIOS
                     tab.Parent = tabControlPrincipal;
                 }
             }
+
+            // Refresh the list only if switching to `tabLista` and refresh is needed
+            if (tabName == tabLista.Name && _needsRefresh)
+            {
+                _needsRefresh = false; // Reset the flag
+                _ = MostrarProducto(); // Call asynchronously
+            }
         }
+
 
         private async Task MostrarProducto(string buscar = "")
         {
@@ -65,47 +75,67 @@ namespace SV_Presentacion.FORMULARIOS
 
         private async void frmProducto_Load(object sender, EventArgs e)
         {
-            // Solo mostrar el tab de lista
+            // Mostrar solo la pestaña de lista al cargar el formulario
             MostrarTab(tabLista.Name);
-            await MostrarProducto(txtBuscar.Text);
+            tabEditar.Hide(); 
+            tabNuevo.Hide();
 
+            // Configurar el DataGridView
             dgvProductos.ImplementarConfiguracion("Editar");
             dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Cargar categorías en el ComboBox
-            var listaCategorias = await _categoriaServicios.listaCategoria();
-            if (listaCategorias.Count > 0)
-            {
-                var items = listaCategorias.Select(item => new OpcionCombo
-                {
-                    Texto = item.NombreCategoria,
-                    Valor = item.IdCategoria
-                }).ToArray();
+            // Mostrar los productos en la lista
+            _needsRefresh = true;
+            await MostrarProducto("");
 
-                cboCategoria.InsertarItems(items);
-            }
-            else
-            {
-                MessageBox.Show("No hay categorías disponibles. Agregue al menos una categoría.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                // Cargar categorías desde el servicio
+                var listaCategorias = await _categoriaServicios.ObtenerCategorias();
+                
+                if (listaCategorias.Count > 0)
+                {
+                    // Convertir las categorías en un formato adecuado para el ComboBox
+                        var items = listaCategorias.Select(item => new OpcionCombo
+                        {
+                            Texto = item.NombreCategoria,
+                            Valor = item.IdCategoria
+                        }).ToArray();
+
+                    // Limpiar el ComboBox antes de agregar los nuevos elementos
+                    cboCategoriaNuevo.Items.Clear();
+
+                    // Asignar los elementos al ComboBox
+                    cboCategoriaNuevo.DataSource = items;
+                    cboCategoriaNuevo.DisplayMember = "Texto"; // Lo que se mostrará en el ComboBox
+                    cboCategoriaNuevo.ValueMember = "Valor";   // El valor que se enviará al seleccionar una categoría
+                }
+                else
+                {
+                    MessageBox.Show("No hay categorías disponibles. Agregue al menos una categoría.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
         }
+
+
 
         private async void btnBuscarProducto_Click(object sender, EventArgs e)
         {
             await MostrarProducto(txtBuscar.Text);
         }
 
-        private void btnAgregarProducto_Click(object sender, EventArgs e)
+        private async void btnAgregarProducto_Click(object sender, EventArgs e)
         {
-            if (cboCategoria.Items.Count == 0)
+            var listaCategorias = await _categoriaServicios.ObtenerCategorias();
+            MessageBox.Show("Categorias: " + listaCategorias.Count, "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            var items = listaCategorias.Select(item => new OpcionCombo
             {
-                MessageBox.Show("Debe haber al menos una categoría para agregar un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                Texto = item.NombreCategoria,
+                Valor = item.IdCategoria
+            }).ToArray();
+            cboCategoriaNuevo.DataSource = items;
+            cboCategoriaNuevo.DisplayMember = "Texto"; // Lo que se mostrará en el ComboBox
+            cboCategoriaNuevo.ValueMember = "Valor";
 
-            // Limpiar los campos del formulario
-            LimpiarCamposNuevo();
-
+            txtDescripcionNuevo.Select();
             // Mostrar la pestaña para agregar
             tabLista.Parent = null;
             tabEditar.Parent = null;
@@ -192,9 +222,7 @@ namespace SV_Presentacion.FORMULARIOS
                 // Si la actualización fue exitosa
                 MessageBox.Show("Producto actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Volver a cargar la lista de productos
-                await MostrarProducto();
-
+                _needsRefresh = true; // Mark the list for refresh
                 // Volver a la pestaña de lista
                 MostrarTab(tabLista.Name);
             }
@@ -203,52 +231,47 @@ namespace SV_Presentacion.FORMULARIOS
         private async void btnNuevoGuardar_Click(object sender, EventArgs e)
         {
             // Validaciones
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
-            {
-                MessageBox.Show("El código es obligatorio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-            {
-                MessageBox.Show("La descripción es obligatoria", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text) ||
-                string.IsNullOrWhiteSpace(txtDescripcion.Text) ||
-                string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ||
-                string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ||
-                string.IsNullOrWhiteSpace(txtCantidad.Text))
+            if (string.IsNullOrWhiteSpace(txtCodigoNuevo.Text) ||
+                string.IsNullOrWhiteSpace(txtDescripcionNuevo.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioCompraNuevo.Text) ||
+                string.IsNullOrWhiteSpace(txtPrecioVentaNuevo.Text) ||
+                string.IsNullOrWhiteSpace(txtCantidadNuevo.Text))
             {
                 MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            if (cboCategoriaNuevo.Items.Count == 0 || cboCategoriaNuevo.SelectedItem is null)
+            {
+                MessageBox.Show("Debe seleccionar una categoría.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            var categoriaSeleccionada = (OpcionCombo)cboCategoria.SelectedItem!;
+            var categoriaSeleccionada = (OpcionCombo)cboCategoriaNuevo.SelectedItem!;
 
             var objeto = new Producto
             {
-                Codigo = txtCodigo.Text.Trim(),
-                Descripcion = txtDescripcion.Text.Trim(),
+                Codigo = txtCodigoNuevo.Text.Trim(),
+                Descripcion = txtDescripcionNuevo.Text.Trim(),
                 RefCategoria = new Categoria { IdCategoria = categoriaSeleccionada.Valor },
-                PrecioCompra = decimal.Parse(txtPrecioCompra.Text),
-                PrecioVenta = decimal.Parse(txtPrecioVenta.Text),
-                Cantidad = int.Parse(txtCantidad.Text)
+                PrecioCompra = decimal.TryParse(txtPrecioCompraNuevo.Text, out var compra) ? compra : 0,
+                PrecioVenta = decimal.TryParse(txtPrecioVentaNuevo.Text, out var venta) ? venta : 0,
+                Cantidad = int.TryParse(txtCantidadNuevo.Text, out var cantidad) ? cantidad : 0
             };
 
             var respuesta = await _productoServicios.CrearProducto(objeto);
 
-            if (respuesta != "")
+            if (!string.IsNullOrEmpty(respuesta))
             {
                 MessageBox.Show(respuesta, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
             else
             {
-                await MostrarProducto();
+                _needsRefresh = true; // Mark the list for refresh
+                MessageBox.Show("Producto creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MostrarTab(tabLista.Name);
             }
         }
+
     }
 }

@@ -39,5 +39,16 @@ namespace SV_Servicios.IMPLEMENTACION
                 throw new Exception(ex.Message);
             }
         }
+        public async Task<List<Categoria>> ObtenerCategorias()
+        {
+            try
+            {
+                return await _categoriaRepositorio.ObtenerCategorias();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

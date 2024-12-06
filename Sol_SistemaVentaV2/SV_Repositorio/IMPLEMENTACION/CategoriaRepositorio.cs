@@ -3,6 +3,7 @@ using SV_Repositorio.BD;
 using SV_Repositorio.ENTIDADES;
 using SV_Repositorio.INTERFACES;
 using System.Data;
+using System.Diagnostics;
 
 namespace SV_Repositorio.IMPLEMENTACION
 {
@@ -133,6 +134,36 @@ namespace SV_Repositorio.IMPLEMENTACION
             }
             return categoria;
         }
+
+        public async Task<List<Categoria>> ObtenerCategorias()
+        {
+            var lista = new List<Categoria>();
+
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_obtenerCategorias", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                using (var dr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await dr.ReadAsync())
+                    {
+                        lista.Add(new Categoria
+                        {
+                            IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
+                            NombreCategoria = dr["NombreCategoria"].ToString()!,
+                            RefMedida = new Medida
+                            {
+                                IdMedida = Convert.ToInt32(dr["IdMedida"]),
+                            },
+                            Activo = Convert.ToInt32(dr["Activo"]),
+                        });
+                    }
+                }
+            }
+            return lista;
+        }
+
 
     }
 }
