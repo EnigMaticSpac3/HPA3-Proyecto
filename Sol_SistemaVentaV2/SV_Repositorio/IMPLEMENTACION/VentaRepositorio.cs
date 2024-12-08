@@ -73,5 +73,38 @@ namespace SV_Repositorio.IMPLEMENTACION
             }
             return lista;
         }
+        public async Task<List<DetalleVenta>> ObtenerDetalleVenta(string numeroVenta)
+        {
+            var detalles = new List<DetalleVenta>();
+
+            using (var connection = _conexion.ObtenerSql())
+            {
+                connection.Open();
+                var command = new SqlCommand("sp_obtenerDetalleVenta", connection);
+                command.Parameters.AddWithValue("@NumeroVenta", numeroVenta);
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        detalles.Add(new DetalleVenta
+                        {
+                            RefProducto = new Producto
+                            {
+                                Descripcion = reader["Descripcion"].ToString(),
+                                Codigo = reader["Codigo"].ToString(),
+                                PrecioVenta = Convert.ToDecimal(reader["PrecioVenta"]),
+                            },
+                            Cantidad = Convert.ToInt32(reader["Cantidad"]),
+                            PrecioTotal = Convert.ToDecimal(reader["PrecioTotal"]),
+                        });
+                    }
+                }
+            }
+
+            return detalles;
+        }
+
     }
 }

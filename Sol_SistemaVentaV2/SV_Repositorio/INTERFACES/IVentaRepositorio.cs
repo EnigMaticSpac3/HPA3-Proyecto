@@ -6,5 +6,7 @@ namespace SV_Repositorio.INTERFACES
     {
         Task<List<Venta>> listaVenta(string buscar = "");
         Task<string> CrearVenta(Venta venta);
+        Task<List<DetalleVenta>> ObtenerDetalleVenta(string numeroVenta);
+
     }
 }

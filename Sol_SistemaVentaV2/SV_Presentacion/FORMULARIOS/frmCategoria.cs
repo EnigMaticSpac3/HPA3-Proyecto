@@ -10,6 +10,7 @@ namespace SV_Presentacion.FORMULARIOS
     {
         private readonly IMedidaServicios _medidaServicios;
         private readonly ICategoriaServicios _categoriaServicios;
+        private Categoria _categoriaseleccionada;
 
         public frmCategoria(IMedidaServicios medidaServicios, ICategoriaServicios categoriaServicios)
         {
@@ -89,6 +90,10 @@ namespace SV_Presentacion.FORMULARIOS
             cbbMedidaEditar.InsertarItems(items);
             cbbHabilitado.InsertarItems(itemsHabilitado);
 
+            // Suscribir el evento en el constructor o en el evento Load del formulario.
+            dgvCategorias.CellContentClick += dgvCategorias_CellContentClick!;
+
+
 
         }
 
@@ -110,6 +115,57 @@ namespace SV_Presentacion.FORMULARIOS
 
         }
 
+        // Este es el evento que captura cuando se hace clic en una celda del DataGridView.
+        private async void dgvCategorias_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificar si se hizo clic en la columna del botón "Editar" (columna con el nombre "ColumnaAccion").
+            if (e.ColumnIndex == dgvCategorias.Columns["ColumnaAccion"].Index)
+            {
+                // Limpiar los campos de la pestaña de edición
+                txtNombreEditar.Text = ""; // Limpiar campo nombre
+                cbbMedidaEditar.SelectedIndex = 0; // Seleccionar el primer item
+                cbbHabilitado.SelectedIndex = 0; // Seleccionar el primer item
+
+                // Seleccionar el campo de texto para facilitar la edición
+                txtNombreEditar.Select();
+
+                // Ocultar la pestaña de lista y nueva
+                tabLista.Parent = null;
+                tabNuevo.Parent = null;
+
+                // Obtener el IdCategoria de la fila seleccionada
+                int idCategoria = Convert.ToInt32(dgvCategorias.Rows[e.RowIndex].Cells["IdCategoria"].Value);
+
+                // Usar el IdCategoria para cargar los detalles de la categoría a editar
+                var categoria = await _categoriaServicios.ObtenerCategoriaPorId(idCategoria);
+
+                _categoriaseleccionada = categoria;
+
+                // Si la categoría se encuentra, asignar los valores a los controles de la interfaz
+                if (categoria != null)
+                {
+                    txtNombreEditar.Text = categoria.NombreCategoria;
+                    // Aquí asignamos la medida de la categoría. Suponemos que la propiedad RefMedida es de tipo Medida.
+                    var medidaSeleccionada = cbbMedidaEditar.Items
+                        .Cast<OpcionCombo>()
+                        .FirstOrDefault(m => m.Valor == categoria.RefMedida.IdMedida);
+                    if (medidaSeleccionada != null)
+                    {
+                        cbbMedidaEditar.SelectedItem = medidaSeleccionada;
+                    }
+                    // Asignar el estado de habilitación
+                    var habilitado = categoria.Activo == 1 ? "SI" : "NO";
+                    cbbHabilitado.SelectedItem = cbbHabilitado.Items
+                        .Cast<OpcionCombo>()
+                        .FirstOrDefault(item => item.Texto == habilitado);
+                }
+
+                // Cambiar a la pestaña de edición
+                MostrarTab(tabEditar.Name);
+            }
+        }
+
+
         private void btnVolverNuevo_Click(object sender, EventArgs e)
         {
             MostrarTab(tabLista.Name);
@@ -122,7 +178,7 @@ namespace SV_Presentacion.FORMULARIOS
 
         private async void btnNuevoGuardar_Click(object sender, EventArgs e)
         {
-            if(txtNombreNuevoCategoria.Text.Trim() == "")
+            if (txtNombreNuevoCategoria.Text.Trim() == "")
             {
                 MessageBox.Show("El campo nombre es obligatorio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -149,5 +205,46 @@ namespace SV_Presentacion.FORMULARIOS
                 MostrarTab(tabLista.Name);
             }
         }
+
+        private async void btnEditarGuardar_Click(object sender, EventArgs e)
+        {
+            // Validación de datos
+            if (txtNombreEditar.Text.Trim() == "")
+            {
+                MessageBox.Show("El campo nombre es obligatorio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cbbMedidaEditar.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar una medida", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var item = (OpcionCombo)cbbMedidaEditar.SelectedItem!;
+
+            var objeto = new Categoria
+            {
+                IdCategoria = _categoriaseleccionada.IdCategoria, // Usamos el Id de la categoría seleccionada
+                NombreCategoria = txtNombreEditar.Text.Trim(),
+                RefMedida = new Medida { IdMedida = item.Valor },
+                Activo = ((OpcionCombo)cbbHabilitado.SelectedItem!).Valor == 1 ? 0:1 // Obtener valor de Habilitado
+            };
+
+            var respuesta = await _categoriaServicios.EditarCategoria(objeto);
+
+            if (respuesta != "")
+            {
+                MessageBox.Show(respuesta, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Recargar la lista de categorías y volver a la lista
+            await MostrarCategoria();
+            MostrarTab(tabLista.Name);
+        }
+
+
+
     }
 }

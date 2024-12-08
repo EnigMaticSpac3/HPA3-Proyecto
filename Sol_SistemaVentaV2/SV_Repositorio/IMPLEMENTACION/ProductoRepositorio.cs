@@ -58,27 +58,32 @@ namespace SV_Repositorio.IMPLEMENTACION
             {
                 cn.Open();
                 var cmd = new SqlCommand("sp_crearProducto", cn);
-                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
                 cmd.Parameters.AddWithValue("@Codigo", producto.Codigo);
                 cmd.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
                 cmd.Parameters.AddWithValue("@PrecioCompra", producto.PrecioCompra);
                 cmd.Parameters.AddWithValue("@PrecioVenta", producto.PrecioVenta);
                 cmd.Parameters.AddWithValue("@Cantidad", producto.Cantidad);
-                cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.Parameters.AddWithValue("@IdCategoria", producto.RefCategoria.IdCategoria);
+                cmd.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 try
                 {
+                    // Debug: Imprimir valores enviados al procedimiento
+                    Console.WriteLine($"Código: {producto.Codigo}, Descripción: {producto.Descripcion}, PrecioCompra: {producto.PrecioCompra}, PrecioVenta: {producto.PrecioVenta}, Cantidad: {producto.Cantidad}, IdCategoria: {producto.RefCategoria.IdCategoria}");
+
                     await cmd.ExecuteNonQueryAsync();
-                    respuesta = cmd.Parameters["@MsjError"].Value.ToString()!;
+                    respuesta = cmd.Parameters["@Mensaje"].Value.ToString()!;
                 }
-                catch 
+                catch (Exception ex)
                 {
-                    respuesta = "Error(Crear Producto), No se pudo insertar el registro";
+                    // Capturar detalles del error
+                    respuesta = $"Error(Crear Producto): {ex.Message}";
                 }
             }
             return respuesta;
         }
+
 
         public async Task<string> EditarProducto(Producto producto)
         {

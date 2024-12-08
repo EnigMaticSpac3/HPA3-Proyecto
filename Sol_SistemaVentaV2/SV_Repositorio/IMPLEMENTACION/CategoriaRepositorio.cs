@@ -3,6 +3,7 @@ using SV_Repositorio.BD;
 using SV_Repositorio.ENTIDADES;
 using SV_Repositorio.INTERFACES;
 using System.Data;
+using System.Diagnostics;
 
 namespace SV_Repositorio.IMPLEMENTACION
 {
@@ -58,13 +59,13 @@ namespace SV_Repositorio.IMPLEMENTACION
                 var cmd = new SqlCommand("sp_crearCategoria", cn);
                 cmd.Parameters.AddWithValue("@NombreCat", objeto.NombreCategoria);
                 cmd.Parameters.AddWithValue("@IdMedida", objeto.RefMedida.IdMedida);
-                cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.Parameters.Add("@MsError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 try // para encapsular una instruccion y si hay un errory evitar que la aplicacion se rompa
                 {
                     await cmd.ExecuteNonQueryAsync();
-                    respuesta = Convert.ToString(cmd.Parameters["@MsjError"].Value)!;
+                    respuesta = Convert.ToString(cmd.Parameters["@MsError"].Value)!;
                 }
                 catch
                 {
@@ -74,12 +75,95 @@ namespace SV_Repositorio.IMPLEMENTACION
             return respuesta;
         }
 
-        public Task<string> EditarCategoria(Categoria objeto)
+        public async Task<string> EditarCategoria(Categoria objeto)
         {
-            throw new NotImplementedException();
+            string respuesta = "";
+
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_editarCategoria", cn);
+                cmd.Parameters.AddWithValue("@IdCategoria", objeto.IdCategoria);
+                cmd.Parameters.AddWithValue("@NombreCat", objeto.NombreCategoria);
+                cmd.Parameters.AddWithValue("@IdMedida", objeto.RefMedida.IdMedida);
+                cmd.Parameters.AddWithValue("@Activo", objeto.Activo);
+                cmd.Parameters.Add("@MsjError", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    await cmd.ExecuteNonQueryAsync();
+                    respuesta = Convert.ToString(cmd.Parameters["@MsjError"].Value)!;
+                }
+                catch
+                {
+                    respuesta = "Error (Editar Categoría), No se pudo editar el registro.";
+                }
+
+            }
+            return respuesta;
+        }
+
+        public async Task<Categoria> ObtenerCategoriaPorId(int idCategoria)
+        {
+            Categoria categoria = null!;
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_obtenerCategoriaPorId", cn);
+                cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var reader = await cmd.ExecuteReaderAsync();
+                if (reader.HasRows)
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        categoria = new Categoria
+                        {
+                            IdCategoria = reader.GetInt32(reader.GetOrdinal("IdCategoria")),
+                            NombreCategoria = reader.GetString(reader.GetOrdinal("NombreCategoria")),
+                            Activo = reader.GetBoolean(reader.GetOrdinal("Activo")) ? 1 : 0,
+                            RefMedida = new Medida
+                            {
+                                IdMedida = reader.GetInt32(reader.GetOrdinal("IdMedida"))
+                            }
+                        };
+                    }
+                }
+            }
+            return categoria;
+        }
+
+        public async Task<List<Categoria>> ObtenerCategorias()
+        {
+            var lista = new List<Categoria>();
+
+            using (var cn = _conexion.ObtenerSql())
+            {
+                cn.Open();
+                var cmd = new SqlCommand("sp_obtenerCategorias", cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                using (var dr = await cmd.ExecuteReaderAsync())
+                {
+                    while (await dr.ReadAsync())
+                    {
+                        lista.Add(new Categoria
+                        {
+                            IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
+                            NombreCategoria = dr["NombreCategoria"].ToString()!,
+                            RefMedida = new Medida
+                            {
+                                IdMedida = Convert.ToInt32(dr["IdMedida"]),
+                            },
+                            Activo = Convert.ToInt32(dr["Activo"]),
+                        });
+                    }
+                }
+            }
+            return lista;
         }
 
 
-        
     }
 }

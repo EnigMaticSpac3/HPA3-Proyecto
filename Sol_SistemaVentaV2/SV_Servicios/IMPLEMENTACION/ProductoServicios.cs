@@ -11,6 +11,10 @@ namespace SV_Servicios.IMPLEMENTACION
         {
             _productoRepositorio = productoRepositorio;
         }
+        public async Task<List<Producto>> listaProducto(string buscar = "")
+        {
+            return await _productoRepositorio.listaProducto(buscar);
+        }
         public async Task<string> CrearProducto(Producto producto)
         {
             return await _productoRepositorio.CrearProducto(producto);
@@ -28,11 +32,6 @@ namespace SV_Servicios.IMPLEMENTACION
                 // Manejo de errores
                 return $"Error al actualizar el producto: {ex.Message}";
             }
-        }
-
-        public async Task<List<Producto>> listaProducto(string buscar = "")
-        {
-            return await _productoRepositorio.listaProducto(buscar);
         }
     }
 }
